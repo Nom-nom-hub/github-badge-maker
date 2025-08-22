@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { BadgeConfig } from '@/lib/types';
 import { generateBadgeUrl } from '@/lib/badge-utils';
+import { badgeAnalytics } from '@/lib/badge-analytics';
+import { customBadgeGenerator } from '@/lib/custom-badge-generator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, RefreshCw, Eye, Sparkles, Copy, ExternalLink } from 'lucide-react';
@@ -33,7 +35,22 @@ export function BadgePreview({ config }: BadgePreviewProps) {
           throw new Error('Label and message are required');
         }
 
-        const url = generateBadgeUrl(config);
+        let url: string;
+        
+        if (config.isCustom) {
+          // Generate custom SVG badge
+          url = customBadgeGenerator.generateDataUrl({
+            label: config.label,
+            message: config.message,
+            labelColor: config.labelColor,
+            messageColor: config.messageColor,
+            style: config.style
+          });
+        } else {
+          // Generate standard Shields.io badge
+          url = generateBadgeUrl(config);
+        }
+        
         setBadgeUrl(url);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to generate badge');
@@ -47,6 +64,15 @@ export function BadgePreview({ config }: BadgePreviewProps) {
 
   const handleImageLoad = () => {
     setImageLoaded(true);
+    
+    // Track badge usage for analytics
+    try {
+      const templateId = `custom-${config.label}-${config.message}`;
+      const category = 'Custom';
+      badgeAnalytics.trackBadgeUsage(templateId, `${config.label}: ${config.message}`, category, config);
+    } catch (error) {
+      console.warn('Failed to track badge usage:', error);
+    }
   };
 
   const handleImageError = () => {

@@ -1,14 +1,17 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { BadgeConfig, BADGE_STYLES, COMMON_COLORS } from '@/lib/types';
-import { Palette, RotateCcw, Sparkles, Type, Zap, Image } from 'lucide-react';
+import { Palette, RotateCcw, Sparkles, Type, Zap, Image, ChevronDown, Settings2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { BadgeAdvanced } from '@/components/badge-advanced';
+import { AdvancedBadgeConfig } from '@/lib/badge-advanced';
 
 interface BadgeFormProps {
   config: BadgeConfig;
@@ -16,8 +19,14 @@ interface BadgeFormProps {
 }
 
 export function BadgeForm({ config, onChange }: BadgeFormProps) {
+  const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
+  
   const handleInputChange = (field: keyof BadgeConfig, value: string | number | undefined) => {
     onChange({ [field]: value });
+  };
+
+  const handleAdvancedChange = (advancedConfig: Partial<AdvancedBadgeConfig>) => {
+    onChange(advancedConfig);
   };
 
   const resetToDefaults = () => {
@@ -287,9 +296,44 @@ export function BadgeForm({ config, onChange }: BadgeFormProps) {
                 </div>
               </div>
             </div>
-          )}
+          )}        
         </div>
       </div>
+
+      <Separator className="bg-border/50" />
+
+      {/* Advanced Customization */}
+      <Collapsible open={isAdvancedOpen} onOpenChange={setIsAdvancedOpen}>
+        <CollapsibleTrigger asChild>
+          <Button 
+            variant="ghost" 
+            className="w-full justify-between hover:bg-accent/50 transition-all duration-200 p-4 h-auto"
+          >
+            <div className="flex items-center gap-3">
+              <Settings2 className="h-4 w-4 text-primary" />
+              <div className="text-left">
+                <h3 className="font-semibold text-sm text-foreground">
+                  Advanced Customization
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Animations, gradients, effects & more
+                </p>
+              </div>
+            </div>
+            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
+              isAdvancedOpen ? 'rotate-180' : ''
+            }`} />
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="space-y-4 animate-slide-in-up">
+          <div className="pt-4">
+            <BadgeAdvanced 
+              config={config} 
+              onChange={handleAdvancedChange}
+            />
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
 
       <Separator className="bg-border/50" />
 

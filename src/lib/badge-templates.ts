@@ -140,6 +140,7 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       label: 'version',
       message: 'v1.0.0',
       messageColor: '#007ec6',
+      logoSvg: 'semanticrelease',
       style: 'flat'
     }
   },
@@ -204,7 +205,7 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       label: 'PyPI',
       message: 'v1.0.0',
       messageColor: '#3775a9',
-      logoSvg: 'pypi',
+      logoSvg: 'python',
       style: 'flat'
     }
   },
@@ -243,7 +244,7 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       label: 'crates.io',
       message: 'v1.0.0',
       messageColor: '#dea584',
-      logoSvg: 'rust',
+      logoSvg: 'crates.io',
       style: 'flat'
     }
   },
@@ -256,7 +257,7 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       label: 'gem',
       message: 'v1.0.0',
       messageColor: '#e9573f',
-      logoSvg: 'rubygems',
+      logoSvg: 'ruby',
       style: 'flat'
     }
   },
@@ -269,7 +270,7 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       label: 'packagist',
       message: 'v1.0.0',
       messageColor: '#f28d1a',
-      logoSvg: 'packagist',
+      logoSvg: 'composer',
       style: 'flat'
     }
   },
@@ -596,6 +597,43 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
     }
   },
   {
+    id: 'coverage-90',
+    name: 'Coverage 90%',
+    description: '90% test coverage',
+    category: 'Quality',
+    config: {
+      label: 'coverage',
+      message: '90%',
+      messageColor: '#97ca00',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'coverage-85',
+    name: 'Coverage 85%',
+    description: '85% test coverage',
+    category: 'Quality',
+    config: {
+      label: 'coverage',
+      message: '85%',
+      messageColor: '#dfb317',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'coverage-coveralls',
+    name: 'Coveralls',
+    description: 'Code coverage by Coveralls',
+    category: 'Quality',
+    config: {
+      label: 'Coveralls',
+      message: '92%',
+      messageColor: '#343434',
+      logoSvg: 'coveralls',
+      style: 'flat'
+    }
+  },
+  {
     id: 'codeclimate',
     name: 'Code Climate',
     description: 'Code Climate maintainability',
@@ -709,6 +747,54 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       message: 'E2E',
       messageColor: '#2d4552',
       logoSvg: 'playwright',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'coverage-nyc',
+    name: 'NYC Coverage',
+    description: 'Code coverage with NYC/Istanbul',
+    category: 'Quality',
+    config: {
+      label: 'nyc',
+      message: '88%',
+      messageColor: '#007ec6',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'tests-count',
+    name: 'Tests',
+    description: 'Number of tests',
+    category: 'Quality',
+    config: {
+      label: 'tests',
+      message: '150 passed',
+      messageColor: '#4c1',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'code-quality-b',
+    name: 'Code Quality B',
+    description: 'Good code quality',
+    category: 'Quality',
+    config: {
+      label: 'code quality',
+      message: 'B',
+      messageColor: '#97ca00',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'code-quality-c',
+    name: 'Code Quality C',
+    description: 'Average code quality',
+    category: 'Quality',
+    config: {
+      label: 'code quality',
+      message: 'C',
+      messageColor: '#dfb317',
       style: 'flat'
     }
   },
@@ -2002,6 +2088,252 @@ export const BADGE_TEMPLATES: BadgeTemplate[] = [
       message: 'support',
       messageColor: '#ff5e5b',
       logoSvg: 'kofi',
+      style: 'flat'
+    }
+  },
+
+  // AI & Machine Learning
+  {
+    id: 'tensorflow',
+    name: 'TensorFlow',
+    description: 'Built with TensorFlow',
+    category: 'AI/ML',
+    config: {
+      label: 'TensorFlow',
+      message: '2.0+',
+      messageColor: '#ff6f00',
+      logoSvg: 'tensorflow',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'pytorch',
+    name: 'PyTorch',
+    description: 'Built with PyTorch',
+    category: 'AI/ML',
+    config: {
+      label: 'PyTorch',
+      message: '2.0+',
+      messageColor: '#ee4c2c',
+      logoSvg: 'pytorch',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'openai',
+    name: 'OpenAI',
+    description: 'Powered by OpenAI',
+    category: 'AI/ML',
+    config: {
+      label: 'OpenAI',
+      message: 'GPT-4',
+      messageColor: '#412991',
+      logoSvg: 'openai',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'jupyter',
+    name: 'Jupyter Notebook',
+    description: 'Data analysis with Jupyter',
+    category: 'AI/ML',
+    config: {
+      label: 'Jupyter',
+      message: 'notebook',
+      messageColor: '#f37626',
+      logoSvg: 'jupyter',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'pandas',
+    name: 'Pandas',
+    description: 'Data manipulation with Pandas',
+    category: 'AI/ML',
+    config: {
+      label: 'Pandas',
+      message: 'dataframes',
+      messageColor: '#150458',
+      logoSvg: 'pandas',
+      style: 'flat'
+    }
+  },
+
+  // Blockchain & Web3
+  {
+    id: 'ethereum',
+    name: 'Ethereum',
+    description: 'Built on Ethereum',
+    category: 'Blockchain',
+    config: {
+      label: 'Ethereum',
+      message: 'dApp',
+      messageColor: '#3c3c3d',
+      logoSvg: 'ethereum',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'solidity',
+    name: 'Solidity',
+    description: 'Smart contracts in Solidity',
+    category: 'Blockchain',
+    config: {
+      label: 'Solidity',
+      message: 'smart contracts',
+      messageColor: '#363636',
+      logoSvg: 'solidity',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'web3js',
+    name: 'Web3.js',
+    description: 'Web3.js integration',
+    category: 'Blockchain',
+    config: {
+      label: 'Web3.js',
+      message: 'enabled',
+      messageColor: '#f16822',
+      logoSvg: 'web3dotjs',
+      style: 'flat'
+    }
+  },
+
+  // Gaming & Entertainment
+  {
+    id: 'unity',
+    name: 'Unity',
+    description: 'Built with Unity',
+    category: 'Gaming',
+    config: {
+      label: 'Unity',
+      message: '2023.1+',
+      messageColor: '#000000',
+      logoSvg: 'unity',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'unreal-engine',
+    name: 'Unreal Engine',
+    description: 'Built with Unreal Engine',
+    category: 'Gaming',
+    config: {
+      label: 'Unreal',
+      message: 'Engine 5',
+      messageColor: '#0e1128',
+      logoSvg: 'unrealengine',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'steam',
+    name: 'Steam',
+    description: 'Available on Steam',
+    category: 'Gaming',
+    config: {
+      label: 'Steam',
+      message: 'available',
+      messageColor: '#000000',
+      logoSvg: 'steam',
+      style: 'flat'
+    }
+  },
+
+  // DevTools & Productivity
+  {
+    id: 'vscode',
+    name: 'VS Code',
+    description: 'Developed with VS Code',
+    category: 'DevTools',
+    config: {
+      label: 'VS Code',
+      message: 'extension',
+      messageColor: '#007acc',
+      logoSvg: 'visualstudiocode',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'figma',
+    name: 'Figma',
+    description: 'Designed with Figma',
+    category: 'DevTools',
+    config: {
+      label: 'Figma',
+      message: 'design',
+      messageColor: '#f24e1e',
+      logoSvg: 'figma',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'notion',
+    name: 'Notion',
+    description: 'Documented with Notion',
+    category: 'DevTools',
+    config: {
+      label: 'Notion',
+      message: 'docs',
+      messageColor: '#000000',
+      logoSvg: 'notion',
+      style: 'flat'
+    }
+  },
+
+  // Analytics & Monitoring
+  {
+    id: 'google-analytics',
+    name: 'Google Analytics',
+    description: 'Tracked with Google Analytics',
+    category: 'Analytics',
+    config: {
+      label: 'Analytics',
+      message: 'enabled',
+      messageColor: '#e37400',
+      logoSvg: 'googleanalytics',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'sentry',
+    name: 'Sentry',
+    description: 'Error monitoring with Sentry',
+    category: 'Analytics',
+    config: {
+      label: 'Sentry',
+      message: 'monitoring',
+      messageColor: '#362d59',
+      logoSvg: 'sentry',
+      style: 'flat'
+    }
+  },
+
+  // Documentation
+  {
+    id: 'gitbook',
+    name: 'GitBook',
+    description: 'Documentation with GitBook',
+    category: 'Documentation',
+    config: {
+      label: 'GitBook',
+      message: 'docs',
+      messageColor: '#3884ff',
+      logoSvg: 'gitbook',
+      style: 'flat'
+    }
+  },
+  {
+    id: 'markdown',
+    name: 'Markdown',
+    description: 'Written in Markdown',
+    category: 'Documentation',
+    config: {
+      label: 'Markdown',
+      message: 'docs',
+      messageColor: '#000000',
+      logoSvg: 'markdown',
       style: 'flat'
     }
   }

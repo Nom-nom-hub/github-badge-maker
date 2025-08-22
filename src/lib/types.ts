@@ -7,6 +7,7 @@ export interface BadgeConfig {
   logoColor?: string;
   style: BadgeStyle;
   logoWidth?: number;
+  isCustom?: boolean;
 }
 
 export type BadgeStyle = 'flat' | 'flat-square' | 'for-the-badge' | 'plastic' | 'social';

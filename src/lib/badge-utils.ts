@@ -1,27 +1,49 @@
 import { BadgeConfig, BadgeStyle } from './types';
+import { customBadgeGenerator } from './custom-badge-generator';
 
 export function generateBadgeUrl(config: BadgeConfig): string {
+  // If it's a custom badge, generate SVG data URL
+  if (config.isCustom) {
+    return customBadgeGenerator.generateDataUrl({
+      label: config.label,
+      message: config.message,
+      labelColor: config.labelColor,
+      messageColor: config.messageColor,
+      style: config.style
+    });
+  }
+  
   const { label, message, labelColor, messageColor, style, logoSvg, logoColor, logoWidth } = config;
   
   // Use shields.io service for badge generation
   const baseUrl = 'https://img.shields.io/badge';
   
-  // Encode label and message for URL
-  const encodedLabel = encodeURIComponent(label);
-  const encodedMessage = encodeURIComponent(message);
+  // Apply Shields.io encoding rules:
+  // Space -> _
+  // Underscore -> __
+  // Dash -> --
+  function encodeForShields(text: string): string {
+    return text
+      .replace(/_/g, '__')    // Underscore becomes double underscore
+      .replace(/-/g, '--')    // Dash becomes double dash
+      .replace(/ /g, '_')     // Space becomes underscore
+      .replace(/%20/g, '_');  // %20 (encoded space) becomes underscore
+  }
   
-  // Build the basic badge URL
-  const url = `${baseUrl}/${encodedLabel}-${encodedMessage}`;
+  const encodedLabel = encodeForShields(label);
+  const encodedMessage = encodeForShields(message);
+  
+  // Get the color without # for the path
+  const pathColor = messageColor?.replace('#', '') || 'blue';
+  
+  // Build the badge URL according to Shields.io format: /badge/label-message-color
+  let url = `${baseUrl}/${encodedLabel}-${encodedMessage}-${pathColor}`;
   
   // Add query parameters
   const params = new URLSearchParams();
   
   if (labelColor && labelColor !== '#555') {
     params.set('labelColor', labelColor.replace('#', ''));
-  }
-  
-  if (messageColor && messageColor !== '#4c1') {
-    params.set('color', messageColor.replace('#', ''));
   }
   
   if (style && style !== 'flat') {
@@ -37,7 +59,7 @@ export function generateBadgeUrl(config: BadgeConfig): string {
   }
   
   if (logoWidth) {
-    params.set('logoWidth', logoWidth.toString());
+    params.set('logoSize', logoWidth.toString());
   }
   
   const queryString = params.toString();
@@ -108,8 +130,17 @@ export function generateShieldsCompatibleUrl(
   color: string = 'brightgreen',
   style: BadgeStyle = 'flat'
 ): string {
-  const encodedLabel = encodeURIComponent(label.replace(/-/g, '--').replace(/_/g, '__'));
-  const encodedMessage = encodeURIComponent(message.replace(/-/g, '--').replace(/_/g, '__'));
+  // Apply Shields.io encoding rules:
+  function encodeForShields(text: string): string {
+    return text
+      .replace(/_/g, '__')    // Underscore becomes double underscore
+      .replace(/-/g, '--')    // Dash becomes double dash
+      .replace(/ /g, '_')     // Space becomes underscore
+      .replace(/%20/g, '_');  // %20 (encoded space) becomes underscore
+  }
+  
+  const encodedLabel = encodeForShields(label);
+  const encodedMessage = encodeForShields(message);
   
   let url = `https://img.shields.io/badge/${encodedLabel}-${encodedMessage}-${color.replace('#', '')}`;
   
