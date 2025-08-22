@@ -21,8 +21,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "export": "next build && next export"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"No tests specified yet\" && exit 0",
+    "test:watch": "echo \"No tests specified yet\" && exit 0",
+    "export": "next build && next export",
+    "analyze": "cross-env ANALYZE=true next build",
+    "clean": "rm -rf .next out"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

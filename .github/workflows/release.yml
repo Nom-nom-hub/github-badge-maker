@@ -1,0 +1,99 @@
+name: 🚀 Release
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.github/**'
+
+jobs:
+  release:
+    name: 🚀 Create Release
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip-release')"
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.17'
+          cache: 'npm'
+
+      - name: 📋 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build application
+        run: npm run build
+
+      - name: 📝 Generate changelog
+        id: changelog
+        run: |
+          # Get the latest tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          
+          # Generate changelog
+          CHANGELOG=$(git log ${LATEST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          
+          # Save changelog to output
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 🏷️ Bump version and create tag
+        id: version
+        run: |
+          # Get current version from package.json
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          
+          # Determine version bump type based on commit messages
+          if git log --format=%B -n 1 | grep -q "BREAKING CHANGE\|feat!"; then
+            VERSION_TYPE="major"
+          elif git log --format=%B -n 1 | grep -q "feat"; then
+            VERSION_TYPE="minor"
+          else
+            VERSION_TYPE="patch"
+          fi
+          
+          # Bump version
+          NEW_VERSION=$(npm version $VERSION_TYPE --no-git-tag-version)
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
+
+      - name: 📝 Commit version bump
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json package-lock.json
+          git commit -m "🔖 bump version to ${{ steps.version.outputs.new_version }}"
+          git tag ${{ steps.version.outputs.new_version }}
+          git push origin main --tags
+
+      - name: 🚀 Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.new_version }}
+          release_name: Release ${{ steps.version.outputs.new_version }}
+          body: |
+            ## 🚀 Release ${{ steps.version.outputs.new_version }}
+            
+            ### 📋 Changes
+            ${{ steps.changelog.outputs.changelog }}
+            
+            ### 🔗 Links
+            - [Live Demo](https://github-badge-maker.vercel.app)
+            - [Documentation](https://github.com/${{ github.repository }}/blob/main/README.md)
+            
+            ---
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version.outputs.previous_tag }}...${{ steps.version.outputs.new_version }}
+          draft: false
+          prerelease: false

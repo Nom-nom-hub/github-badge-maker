@@ -84,6 +84,36 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 - **Badge Generation**: [Shields.io](https://shields.io/) API
 - **Deployment**: [Vercel](https://vercel.com/)
 
+## 🔄 CI/CD Pipeline
+
+### GitHub Actions Workflows
+
+- **🔍 Code Quality**: ESLint, TypeScript checking, and code formatting
+- **🏗️ Build & Test**: Automated building and testing on every push/PR
+- **🔒 Security**: Automated security audits and dependency scanning
+- **🚀 Deployment**: 
+  - Preview deployments for pull requests
+  - Production deployments for main branch
+- **📦 Dependencies**: Automated dependency updates via Dependabot
+- **🚨 Performance**: Lighthouse CI for performance monitoring
+- **🏷️ Releases**: Automated semantic versioning and releases
+
+### Badges for This Project
+
+[![CI/CD Pipeline](https://github.com/username/github-badge-maker/actions/workflows/ci.yml/badge.svg)](https://github.com/username/github-badge-maker/actions/workflows/ci.yml)
+[![Deploy Production](https://github.com/username/github-badge-maker/actions/workflows/release.yml/badge.svg)](https://github.com/username/github-badge-maker/actions/workflows/release.yml)
+[![Dependencies](https://github.com/username/github-badge-maker/actions/workflows/dependencies.yml/badge.svg)](https://github.com/username/github-badge-maker/actions/workflows/dependencies.yml)
+
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) with App Router
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Toast Notifications**: [Sonner](https://sonner.emilkowal.ski/)
+- **Badge Generation**: [Shields.io](https://shields.io/) API
+- **Deployment**: [Vercel](https://vercel.com/)
+
 ## 📁 Project Structure
 
 ```
@@ -133,11 +163,62 @@ No environment variables are required for basic functionality. The application u
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Development Workflow
+
+1. **Fork** the project
+2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Make** your changes following our coding standards
+4. **Test** your changes locally:
+   ```bash
+   npm run lint        # Check code style
+   npm run type-check  # Verify TypeScript
+   npm run build      # Test build process
+   ```
+5. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+6. **Push** to the branch (`git push origin feature/AmazingFeature`)
+7. **Open** a Pull Request
+
+### Automated Checks
+
+Every pull request automatically runs:
+- ✅ **ESLint** for code quality
+- ✅ **TypeScript** compilation check
+- ✅ **Build** verification
+- ✅ **Security** audit
+- ✅ **Lighthouse** performance testing
+- ✅ **Preview** deployment
+
+### Code Standards
+
+- Follow **TypeScript** best practices
+- Use **ESLint** configuration (runs automatically)
+- Write **meaningful commit messages**
+- Add **tests** for new features (when applicable)
+- Update **documentation** as needed
+
+### Issue Templates
+
+- 🐛 **Bug Report**: Report bugs with detailed information
+- ✨ **Feature Request**: Suggest new features or improvements
+
+## 🔒 Security
+
+- 🛡️ **Automated security audits** on every PR
+- 📦 **Dependency vulnerability scanning**
+- 🔄 **Regular dependency updates** via Dependabot
+- 🚨 **Performance monitoring** with Lighthouse CI
+
+## 🔄 Releases
+
+Releases are automated using semantic versioning:
+- **Patch** (`1.0.1`): Bug fixes
+- **Minor** (`1.1.0`): New features
+- **Major** (`2.0.0`): Breaking changes
+
+Commit message format triggers appropriate version bumps:
+- `feat:` → Minor version
+- `fix:` → Patch version
+- `feat!:` or `BREAKING CHANGE:` → Major version
 
 ## 📝 License
 
