@@ -80,11 +80,11 @@ export function ThemeToggle() {
                   key={themeOption.value}
                   onClick={() => setTheme(themeOption.value)}
                   className={`cursor-pointer transition-all duration-200 hover:bg-accent/50 ${
-                    isActive ? \'bg-accent/30 text-accent-foreground\' : \'\'
+                    isActive ? 'bg-accent/30 text-accent-foreground' : ''
                   }`}
                 >
                   <Icon className={`mr-2 h-4 w-4 transition-all duration-200 ${
-                    isActive ? \'text-primary\' : \'\'
+                    isActive ? 'text-primary' : ''
                   }`} />
                   <div className="flex flex-col">
                     <span className="font-medium">{themeOption.name}</span>

@@ -182,7 +182,7 @@ export function BadgeTemplates({ onTemplateSelect }: BadgeTemplatesProps) {
               <div className="text-muted-foreground">
                 {searchTerm ? (
                   <>
-                    No templates found matching <strong>"{searchTerm}"</strong>
+                    No templates found matching <strong>&ldquo;{searchTerm}&rdquo;</strong>
                     <br />
                     <span className="text-sm">Try adjusting your search or browse by category</span>
                   </>

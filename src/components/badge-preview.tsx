@@ -117,7 +117,7 @@ export function BadgePreview({ config }: BadgePreviewProps) {
             return (
               <button
                 key={mode.id}
-                onClick={() => setPreviewMode(mode.id as any)}
+                onClick={() => setPreviewMode(mode.id as 'badge' | 'readme' | 'docs')}
                 className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center gap-1 ${
                   previewMode === mode.id 
                     ? 'bg-primary text-primary-foreground shadow-sm' 
