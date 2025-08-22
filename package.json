@@ -1,12 +1,28 @@
 {
   "name": "github-badge-maker",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "A beautiful, intuitive GitHub badge maker with real-time preview and multiple export formats. Built with Next.js and shadcn/ui.",
   "private": true,
+  "author": "GitHub Badge Maker",
+  "keywords": [
+    "github",
+    "badges",
+    "shields",
+    "nextjs",
+    "react",
+    "tailwind",
+    "vercel"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/github-badge-maker"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -24,9 +40,11 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.541.0",
     "next": "15.5.0",
+    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.0.17"
   },
