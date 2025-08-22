@@ -248,7 +248,9 @@ export class BadgeSuggestionEngine {
       'docker': ['docker', 'kubernetes']
     };
 
-    const deploymentBadges = deploymentMap[context.deployment.toLowerCase()] || [];
+    const deploymentBadges = context.deployment 
+      ? deploymentMap[context.deployment.toLowerCase()] || []
+      : [];
     return this.getBadgesByIds(deploymentBadges);
   }
 
