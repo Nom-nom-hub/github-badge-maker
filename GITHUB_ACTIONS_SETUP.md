@@ -18,6 +18,10 @@ Our CI/CD pipeline includes:
 
 To enable all features, add these secrets to your GitHub repository:
 
+### Node.js Version
+
+This project requires Node.js 20.17 or later due to Next.js 15 requirements. The workflows are configured to use Node.js 20.17.
+
 ### Vercel Integration
 
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)

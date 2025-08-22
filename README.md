@@ -29,7 +29,7 @@ A beautiful, intuitive GitHub badge maker with real-time preview and multiple ex
 
 ### Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 20.17 or later (required for Next.js 15)
 - npm, yarn, or pnpm
 
 ### Installation
