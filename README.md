@@ -18,6 +18,7 @@ A beautiful, intuitive GitHub badge maker with real-time preview and multiple ex
 - 📦 **Logo Support** - Add icons from popular services or custom SVGs
 - ⚡ **Fast & Modern** - Built with Next.js 15 and shadcn/ui
 - 🎨 **Custom Badge Designer** - Create unique SVG badges with full design control
+- 🤖 **Automated Releases** - Semantic versioning with automated changelog generation
 
 ## 📸 Preview
 
