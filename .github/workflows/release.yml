@@ -118,11 +118,11 @@ jobs:
           git tag ${{ steps.version.outputs.new_version }}
           
       - name: 🚀 Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          tags: true
+        # Manual git push with proper token authentication
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin main
+          git push origin --tags
 
       - name: 🚀 Create GitHub Release
         uses: actions/create-release@v1
