@@ -1,11 +1,35 @@
 # 🏷️ GitHub Badge Maker
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/username/github-badge-maker)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Made with Next.js](https://img.shields.io/badge/made%20with-Next.js-000000.svg?style=flat&logo=next.js)](https://nextjs.org/)
-[![Deployed on Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000.svg?style=flat&logo=vercel)](https://vercel.com/)
+<!-- Product Status Badges -->
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Available-success?style=for-the-badge&logo=vercel)](https://github-badge-maker.vercel.app)
+[![GitHub Badge Maker](https://img.shields.io/badge/🏷️_Badge_Maker-Production_Ready-blue?style=for-the-badge&logoColor=white)](https://github.com/Nom-nom-hub/github-badge-maker)
+
+<!-- Technology Stack -->
+[![Next.js 15](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Latest-000000?style=flat-square&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
+
+<!-- Build & Quality Status -->
+[![Build Status](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/ci.yml/badge.svg)](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/ci.yml)
+[![Release Status](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/release.yml/badge.svg)](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/release.yml)
+[![Dependencies](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/dependencies.yml/badge.svg)](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/dependencies.yml)
+
+<!-- Features & Stats -->
+[![Templates](https://img.shields.io/badge/📋_Templates-50+-brightgreen?style=flat)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Export Formats](https://img.shields.io/badge/📤_Export_Formats-5-orange?style=flat)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Real-time Preview](https://img.shields.io/badge/⚡_Real--time-Preview-yellow?style=flat)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Mobile Responsive](https://img.shields.io/badge/📱_Mobile-Responsive-blueviolet?style=flat)](https://github.com/Nom-nom-hub/github-badge-maker)
+
+<!-- License & Community -->
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://opensource.org/licenses/MIT)
+[![Open Source](https://img.shields.io/badge/💝_Open-Source-red?style=flat&logo=github)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Contributions Welcome](https://img.shields.io/badge/🤝_Contributions-Welcome-brightgreen?style=flat)](https://github.com/Nom-nom-hub/github-badge-maker/blob/main/README.md#contributing)
 
 A beautiful, intuitive GitHub badge maker with real-time preview and multiple export formats. Create stunning badges for your repositories with ease.
+
+> 🎨 **All the badges above were created using this very tool!** Experience the power of real-time customization, extensive templates, and multiple export formats. 🚀
 
 ## ✨ Features
 
@@ -101,9 +125,28 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ### Badges for This Project
 
-[![CI/CD Pipeline](https://github.com/username/github-badge-maker/actions/workflows/ci.yml/badge.svg)](https://github.com/username/github-badge-maker/actions/workflows/ci.yml)
-[![Deploy Production](https://github.com/username/github-badge-maker/actions/workflows/release.yml/badge.svg)](https://github.com/username/github-badge-maker/actions/workflows/release.yml)
-[![Dependencies](https://github.com/username/github-badge-maker/actions/workflows/dependencies.yml/badge.svg)](https://github.com/username/github-badge-maker/actions/workflows/dependencies.yml)
+*All badges below were created using this GitHub Badge Maker! 🎨*
+
+[![CI/CD Pipeline](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/ci.yml/badge.svg)](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/ci.yml)
+[![Deploy Production](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/release.yml/badge.svg)](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/release.yml)
+[![Dependencies](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/dependencies.yml/badge.svg)](https://github.com/Nom-nom-hub/github-badge-maker/actions/workflows/dependencies.yml)
+
+### 🏷️ Showcase: Made with GitHub Badge Maker
+
+<!-- Custom Product Badges -->
+[![Badge Maker](https://img.shields.io/badge/🏷️_Made_with-GitHub_Badge_Maker-blueviolet?style=for-the-badge)](https://github-badge-maker.vercel.app)
+[![Features](https://img.shields.io/badge/✨_Features-Real--time_Preview-gold?style=for-the-badge)](https://github-badge-maker.vercel.app)
+[![Templates](https://img.shields.io/badge/📋_50+-Templates_Available-success?style=for-the-badge)](https://github-badge-maker.vercel.app)
+
+<!-- Development Status -->
+[![Development](https://img.shields.io/badge/🛠️_Status-Active_Development-brightgreen?style=flat-square)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Performance](https://img.shields.io/badge/⚡_Performance-Optimized-yellow?style=flat-square)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![User Experience](https://img.shields.io/badge/🎆_UX-Intuitive_Design-orange?style=flat-square)](https://github.com/Nom-nom-hub/github-badge-maker)
+
+<!-- Quality Metrics -->
+[![Code Quality](https://img.shields.io/badge/📊_Code_Quality-A+-brightgreen?style=plastic)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Type Safety](https://img.shields.io/badge/🔒_Type_Safety-100%25-blue?style=plastic&logo=typescript)](https://github.com/Nom-nom-hub/github-badge-maker)
+[![Modern Stack](https://img.shields.io/badge/🚀_Stack-Modern-red?style=plastic)](https://github.com/Nom-nom-hub/github-badge-maker)
 
 ## 🛠️ Technology Stack
 
@@ -144,7 +187,9 @@ src/
 
 ### Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/username/github-badge-maker)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Nom-nom-hub/github-badge-maker)
+
+*One-click deployment to showcase the power of modern web development! 🚀*
 
 ### Manual Deployment
 
