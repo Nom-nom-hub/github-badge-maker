@@ -22,7 +22,7 @@ interface BadgeExportProps {
   // onExport?: (url: string) => void; // Currently unused
 }
 
-export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
+export function BadgeExport({ config }: BadgeExportProps) {
   // Format and size state variables for potential future use
   // const [selectedFormat, setSelectedFormat] = useState<'svg' | 'png' | 'jpg'>('svg');
   // const [selectedSize, setSelectedSize] = useState<'small' | 'medium' | 'large'>('medium');
@@ -356,10 +356,12 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
                               <p className="text-sm text-muted-foreground">Loading preview...</p>
                             </div>
                           )}
-                          <img 
+                          <Image
                             key={`${config.label}-${config.message}-${config.style}-${exportOptions.format}`}
                             src={generateBadgeUrl(config)}
                             alt={`${config.label}: ${config.message}`}
+                            width={160}
+                            height={20}
                             className={`max-w-full h-auto ${previewLoading ? 'opacity-0 absolute' : 'opacity-100'}`}
                             onLoad={() => {
                               // Clear timeout on successful load
@@ -383,6 +385,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
                               setPreviewLoading(true);
                               setPreviewError(false);
                             }}
+                            unoptimized
                           />
                         </>
                       )}

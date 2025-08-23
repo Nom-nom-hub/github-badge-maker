@@ -7,12 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BadgeConfig, DEFAULT_BADGE_CONFIG } from '@/lib/types';
 import { generateBadgeUrl } from '@/lib/badge-utils';
 import { BadgeForm } from '@/components/badge-form';
-import { BadgePreview } from '@/components/badge-preview';
-import { BadgeExport } from '@/components/badge-export';
 import { BadgeTemplates } from '@/components/badge-templates';
-import { BadgeSuggestions } from '@/components/badge-suggestions';
-import { BadgeCollections } from '@/components/badge-collections';
-import { BadgeAnalyticsDashboard } from '@/components/badge-analytics';
 import { BatchGenerator } from '@/components/batch-generator';
 import { RepositoryAnalysis } from '@/components/repository-analysis';
 import { CustomBadgeDesigner } from '@/components/custom-badge-designer';
@@ -20,8 +15,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { generateMarkdown, generateHtml } from '@/lib/badge-utils';
-import { Sparkles, Github, Zap, Palette, Brain, Package, BarChart3, Layers, Paintbrush, Settings, Eye, Download, FileText, Code, Link, Copy, Image as ImageIcon, BookOpen } from 'lucide-react';
-import { BadgeTemplate } from '@/lib/types';
+import { Sparkles, Github, Zap, Palette, Brain, Package, Layers, Paintbrush, Settings, Eye, Download, FileText, Code, Link, Copy, Image as ImageIcon, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function BadgeMaker() {
@@ -35,51 +29,6 @@ export function BadgeMaker() {
 
   const handleTemplateSelect = (templateConfig: Partial<BadgeConfig>) => {
     setBadgeConfig(prev => ({ ...prev, ...templateConfig }));
-    setActiveTab('create');
-  };
-
-  const handleTemplateSelectFromSuggestion = (template: BadgeTemplate) => {
-    setBadgeConfig(prev => ({
-      ...prev,
-      label: template.config.label || prev.label,
-      message: template.config.message || prev.message,
-      labelColor: template.config.labelColor || prev.labelColor,
-      messageColor: template.config.messageColor || prev.messageColor,
-      style: template.config.style || prev.style,
-      logoSvg: template.config.logoSvg || prev.logoSvg,
-      logoColor: template.config.logoColor || prev.logoColor
-    }));
-    setActiveTab('create');
-  };
-
-  const handleMultipleTemplateSelect = (templates: BadgeTemplate[]) => {
-    // Convert templates to BadgeConfig and add to selected badges
-    const newBadges: BadgeConfig[] = templates.map(template => ({
-      label: template.config.label || template.name,
-      message: template.config.message || 'enabled',
-      labelColor: template.config.labelColor || '#555',
-      messageColor: template.config.messageColor || '#007ec6',
-      style: template.config.style || 'flat',
-      logoSvg: template.config.logoSvg,
-      logoColor: template.config.logoColor,
-      logoWidth: template.config.logoWidth
-    }));
-    
-    setSelectedBadges(newBadges);
-    
-    // Also set the first badge as the main configuration
-    if (newBadges.length > 0) {
-      setBadgeConfig(newBadges[0]);
-    }
-    
-    // Show success notification
-    toast.success(`✨ Added ${newBadges.length} badge${newBadges.length > 1 ? 's' : ''} to your collection!`);
-    
-    setActiveTab('create');
-  };
-
-  const handleSelectFromHistory = (config: BadgeConfig) => {
-    setBadgeConfig(prev => ({ ...prev, ...config }));
     setActiveTab('create');
   };
 

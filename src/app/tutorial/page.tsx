@@ -1,11 +1,12 @@
 "use client";
 
+import Link from 'next/link';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { 
   BookOpen, 
@@ -16,7 +17,6 @@ import {
   Copy, 
   Sparkles, 
   Brain, 
-  Package, 
   Layers, 
   Paintbrush,
   ArrowRight,
@@ -25,14 +25,12 @@ import {
   Eye,
   Code,
   FileText,
-  Link,
+  Link as LinkIcon,
   Type,
   Wand2,
   Star,
   Github,
-  ExternalLink,
-  Users,
-  Target
+  ExternalLink
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -133,10 +131,10 @@ export default function TutorialPage() {
                 Complete Guide
               </Badge>
               <Button asChild variant="outline">
-                <a href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2">
                   <ArrowRight className="h-4 w-4" />
                   Try the App
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
@@ -226,8 +224,8 @@ export default function TutorialPage() {
                         1. Enter Your Text
                       </h4>
                       <ul className="text-sm text-muted-foreground space-y-1">
-                        <li>• <strong>Label:</strong> Left part (e.g., "Build")</li>
-                        <li>• <strong>Message:</strong> Right part (e.g., "Passing")</li>
+                        <li>• <strong>Label:</strong> Left part (e.g., &quot;Build&quot;)</li>
+                        <li>• <strong>Message:</strong> Right part (e.g., &quot;Passing&quot;)</li>
                       </ul>
                     </div>
                     
@@ -269,7 +267,7 @@ export default function TutorialPage() {
                       />
                       <p className="text-sm text-muted-foreground mb-4">
                         This badge was created with:<br />
-                        Label: "Tutorial" | Message: "Getting Started"
+                        Label: &quot;Tutorial&quot; | Message: &quot;Getting Started&quot;
                       </p>
                       <Button 
                         variant="outline" 
@@ -446,7 +444,7 @@ export default function TutorialPage() {
                     },
                     {
                       title: "URL",
-                      icon: Link,
+                      icon: LinkIcon,
                       description: "Direct image link",
                       example: "https://img.shields.io/..."
                     },
@@ -539,10 +537,10 @@ This project is amazing!`)}
           </p>
           <div className="flex items-center justify-center gap-4">
             <Button size="lg" asChild className="gap-2">
-              <a href="/">
+              <Link href="/">
                 <Zap className="h-4 w-4" />
                 Start Creating
-              </a>
+              </Link>
             </Button>
             <Button size="lg" variant="outline" asChild className="gap-2">
               <a href="https://github.com" target="_blank">
