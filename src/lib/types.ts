@@ -3,6 +3,8 @@ export interface BadgeConfig {
   message: string;
   labelColor: string;
   messageColor: string;
+  labelTextColor?: string;
+  messageTextColor?: string;
   logoSvg?: string;
   logoColor?: string;
   style: BadgeStyle;

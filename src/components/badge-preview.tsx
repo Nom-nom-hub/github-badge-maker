@@ -134,24 +134,24 @@ export function BadgePreview({ config }: BadgePreviewProps) {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 overflow-hidden">
       {/* Preview Mode Selector */}
-      <div className="flex items-center gap-2">
-        <div className="text-sm font-medium text-muted-foreground">Preview as:</div>
-        <div className="flex gap-1 p-1 bg-muted/50 rounded-lg">
+      <div className="flex items-center gap-3 overflow-x-auto pb-2">
+        <div className="text-base font-medium text-muted-foreground shrink-0">Preview as:</div>
+        <div className="flex gap-2 p-1.5 bg-muted/50 rounded-xl shrink-0">
           {previewModes.map((mode) => {
             const Icon = mode.icon;
             return (
               <button
                 key={mode.id}
                 onClick={() => setPreviewMode(mode.id as 'badge' | 'readme' | 'docs')}
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center gap-1 ${
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-2 ${
                   previewMode === mode.id 
                     ? 'bg-primary text-primary-foreground shadow-sm' 
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
                 }`}
               >
-                <Icon className="h-3 w-3" />
+                <Icon className="h-4 w-4" />
                 {mode.label}
               </button>
             );
@@ -160,17 +160,17 @@ export function BadgePreview({ config }: BadgePreviewProps) {
       </div>
 
       {/* Main Badge Display */}
-      <div className="text-center space-y-6">
-        <div className="space-y-3">
-          <div className="flex items-center justify-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-            <div className="text-sm font-medium text-foreground">Live Preview</div>
+      <div className="text-center space-y-8 overflow-hidden">
+        <div className="space-y-4">
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-3 w-3 rounded-full bg-primary animate-pulse" />
+            <div className="text-base font-semibold text-foreground">Live Preview</div>
           </div>
           
-          <div className="relative flex items-center justify-center min-h-[60px] p-6 rounded-xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
+          <div className="relative flex items-center justify-center min-h-[120px] p-10 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50 overflow-hidden">
             {(isLoading || !imageLoaded) && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <Skeleton className="h-6 w-32 rounded animate-pulse" />
+                <Skeleton className="h-10 w-48 rounded animate-pulse" />
               </div>
             )}
             
@@ -179,35 +179,35 @@ export function BadgePreview({ config }: BadgePreviewProps) {
                 <Image
                   src={badgeUrl}
                   alt={`${config.label}: ${config.message}`}
-                  width={100}
-                  height={20}
+                  width={160}
+                  height={32}
                   onLoad={handleImageLoad}
                   onError={handleImageError}
-                  className={`transition-all duration-300 hover:scale-110 ${
+                  className={`transition-all duration-300 hover:scale-105 max-w-full h-auto ${
                     imageLoaded ? 'opacity-100' : 'opacity-0 absolute'
                   }`}
-                  style={{ minHeight: '20px' }}
+                  style={{ minHeight: '32px', maxWidth: '100%' }}
                   unoptimized
                 />
                 
                 {/* Quick Actions Overlay */}
                 {imageLoaded && (
-                  <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-all duration-200 flex gap-1">
+                  <div className="absolute -top-3 -right-3 opacity-0 group-hover:opacity-100 transition-all duration-200 flex gap-2">
                     <Button
                       size="sm"
                       variant="secondary"
-                      className="h-6 w-6 p-0 rounded-full glass"
+                      className="h-8 w-8 p-0 rounded-full glass"
                       onClick={copyBadgeUrl}
                     >
-                      <Copy className="h-3 w-3" />
+                      <Copy className="h-4 w-4" />
                     </Button>
                     <Button
                       size="sm"
                       variant="secondary"
-                      className="h-6 w-6 p-0 rounded-full glass"
+                      className="h-8 w-8 p-0 rounded-full glass"
                       onClick={openBadge}
                     >
-                      <ExternalLink className="h-3 w-3" />
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 )}
@@ -215,16 +215,16 @@ export function BadgePreview({ config }: BadgePreviewProps) {
             )}
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="outline" className="text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-3 px-4">
+            <Badge variant="outline" className="text-sm truncate max-w-full px-3 py-1">
               {config.style} style
             </Badge>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-sm truncate max-w-full px-3 py-1">
               {config.label} • {config.message}
             </Badge>
             {config.logoSvg && (
-              <Badge variant="outline" className="text-xs flex items-center gap-1">
-                <Sparkles className="h-2 w-2" />
+              <Badge variant="outline" className="text-sm flex items-center gap-2 px-3 py-1">
+                <Sparkles className="h-3 w-3" />
                 with logo
               </Badge>
             )}
@@ -233,58 +233,58 @@ export function BadgePreview({ config }: BadgePreviewProps) {
       </div>
 
       {/* Context Previews */}
-      <div className="space-y-4">
-        <div className="text-sm font-medium text-foreground flex items-center gap-2">
-          <Eye className="h-4 w-4 text-primary" />
+      <div className="space-y-6 overflow-hidden">
+        <div className="text-base font-semibold text-foreground flex items-center gap-3">
+          <Eye className="h-5 w-5 text-primary" />
           Context Examples
         </div>
         
         {previewMode === 'readme' && (
-          <div className="space-y-3 animate-slide-in-up">
-            <div className="p-4 rounded-lg glass border border-border/50">
-              <div className="text-xs text-muted-foreground mb-2">GitHub README.md:</div>
-              <div className="font-mono text-sm bg-muted/30 p-3 rounded border">
-                <div className="text-muted-foreground"># My Awesome Project</div>
-                <div className="mt-1 flex items-center gap-2">
+          <div className="space-y-4 animate-slide-in-up overflow-hidden">
+            <div className="p-6 rounded-lg glass border border-border/50">
+              <div className="text-sm text-muted-foreground mb-3">GitHub README.md:</div>
+              <div className="font-mono text-sm bg-muted/30 p-4 rounded border overflow-hidden">
+                <div className="text-muted-foreground truncate"># My Awesome Project</div>
+                <div className="mt-2 flex items-center gap-3 overflow-hidden">
                   {badgeUrl && imageLoaded && (
                     <Image
                       src={badgeUrl}
                       alt={`${config.label}: ${config.message}`}
-                      width={100}
-                      height={20}
-                      className="inline-block"
+                      width={120}
+                      height={24}
+                      className="inline-block max-w-full h-auto object-contain"
                       unoptimized
                     />
                   )}
-                  <span className="text-foreground">[![Build Status](...</span>
+                  <span className="text-foreground truncate">[![Build Status](...</span>
                 </div>
-                <div className="mt-1 text-muted-foreground">Description of your project...</div>
+                <div className="mt-2 text-muted-foreground truncate">Description of your project...</div>
               </div>
             </div>
           </div>
         )}
 
         {previewMode === 'docs' && (
-          <div className="space-y-3 animate-slide-in-up">
-            <div className="p-4 rounded-lg glass border border-border/50">
-              <div className="text-xs text-muted-foreground mb-2">Documentation page:</div>
-              <div className="bg-muted/30 p-4 rounded border space-y-3">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-lg font-semibold text-foreground">
+          <div className="space-y-4 animate-slide-in-up overflow-hidden">
+            <div className="p-6 rounded-lg glass border border-border/50">
+              <div className="text-sm text-muted-foreground mb-3">Documentation page:</div>
+              <div className="bg-muted/30 p-5 rounded border space-y-4 overflow-hidden">
+                <div className="flex items-center gap-4 overflow-hidden">
+                  <h3 className="text-lg font-semibold text-foreground truncate">
                     Project Status
                   </h3>
                   {badgeUrl && imageLoaded && (
                     <Image
                       src={badgeUrl}
                       alt={`${config.label}: ${config.message}`}
-                      width={100}
-                      height={20}
-                      className="inline-block"
+                      width={120}
+                      height={24}
+                      className="inline-block max-w-full h-auto object-contain shrink-0"
                       unoptimized
                     />
                   )}
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed break-words">
                   This project is actively maintained and continuously improved. 
                   Check the badge above for the current status.
                 </p>
@@ -294,21 +294,21 @@ export function BadgePreview({ config }: BadgePreviewProps) {
         )}
 
         {previewMode === 'badge' && (
-          <div className="animate-slide-in-up">
-            <div className="p-4 rounded-lg glass border border-border/50">
-              <div className="text-xs text-muted-foreground mb-3">Badge URL:</div>
+          <div className="animate-slide-in-up overflow-hidden">
+            <div className="p-6 rounded-lg glass border border-border/50">
+              <div className="text-sm text-muted-foreground mb-4">Badge URL:</div>
               {badgeUrl && (
-                <div className="relative">
-                  <code className="block text-xs font-mono bg-muted/30 p-3 rounded border break-all text-muted-foreground leading-relaxed">
+                <div className="relative overflow-hidden">
+                  <code className="block text-sm font-mono bg-muted/30 p-4 rounded border break-all text-muted-foreground leading-relaxed overflow-wrap-anywhere">
                     {badgeUrl}
                   </code>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="absolute top-2 right-2 h-6 px-2"
+                    className="absolute top-3 right-3 h-8 px-3"
                     onClick={copyBadgeUrl}
                   >
-                    <Copy className="h-3 w-3" />
+                    <Copy className="h-4 w-4" />
                   </Button>
                 </div>
               )}

@@ -18,7 +18,9 @@ import { RepositoryAnalysis } from '@/components/repository-analysis';
 import { CustomBadgeDesigner } from '@/components/custom-badge-designer';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Github, Zap, Palette, Brain, Package, BarChart3, Layers, Paintbrush } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { generateMarkdown, generateHtml } from '@/lib/badge-utils';
+import { Sparkles, Github, Zap, Palette, Brain, Package, BarChart3, Layers, Paintbrush, Settings, Eye, Download, FileText, Code, Link, Copy, Image as ImageIcon, BookOpen } from 'lucide-react';
 import { BadgeTemplate } from '@/lib/types';
 import { toast } from 'sonner';
 
@@ -91,330 +93,376 @@ export function BadgeMaker() {
       </div>
       
       {/* Header */}
-      <header className="relative z-10 border-b border-border/40 glass">
-        <div className="container mx-auto px-4 py-4">
+      <header className="relative z-10 border-b border-border/40 glass backdrop-blur-lg">
+        <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 <div className="relative">
-                  <Github className="h-8 w-8 text-primary" />
-                  <Sparkles className="absolute -top-1 -right-1 h-4 w-4 text-accent animate-pulse" />
+                  <Github className="h-10 w-10 text-primary" />
+                  <Sparkles className="absolute -top-1 -right-1 h-5 w-5 text-accent animate-pulse" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold gradient-text">
+                  <h1 className="text-3xl font-bold gradient-text">
                     Badge Maker
                   </h1>
-                  <p className="text-sm text-muted-foreground">
-                    Create beautiful badges
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Create beautiful badges for your projects
                   </p>
                 </div>
               </div>
-              <Badge variant="secondary" className="hidden sm:flex items-center gap-1 animate-scale-in">
-                <Zap className="h-3 w-3" />
-                Real-time
-              </Badge>
-              {selectedBadges.length > 1 && (
-                <Badge variant="default" className="flex items-center gap-1 animate-scale-in bg-primary">
-                  <Package className="h-3 w-3" />
-                  {selectedBadges.length} badges
+              <div className="flex items-center gap-3">
+                <Badge variant="secondary" className="hidden sm:flex items-center gap-2 px-3 py-1 animate-scale-in">
+                  <Zap className="h-4 w-4" />
+                  Real-time Preview
                 </Badge>
-              )}
+                {selectedBadges.length > 1 && (
+                  <Badge variant="default" className="flex items-center gap-2 px-3 py-1 animate-scale-in bg-primary">
+                    <Package className="h-4 w-4" />
+                    {selectedBadges.length} badges selected
+                  </Badge>
+                )}
+              </div>
             </div>
             
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="hidden md:flex">
-                <Palette className="h-3 w-3 mr-1" />
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="hidden md:flex items-center gap-2 px-3 py-1">
+                <Palette className="h-4 w-4" />
                 Beautiful UI
               </Badge>
+              <Button variant="ghost" size="sm" asChild className="hidden lg:flex items-center gap-2">
+                <a href="/tutorial">
+                  <BookOpen className="h-4 w-4" />
+                  Tutorial
+                </a>
+              </Button>
               <ThemeToggle />
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Hero Section */}
-        <div className="text-center mb-10 animate-slide-in-down">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Create 
-            <span className="gradient-text"> Beautiful </span>
-            Badges
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            Create Professional 
+            <span className="gradient-text">GitHub Badges</span>
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
-            Design stunning, customizable badges for your GitHub repositories with real-time preview.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+            Design beautiful, customizable badges for your repositories in seconds
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Sparkles className="h-3 w-3" />
+          <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 text-primary" />
+              Real-time Preview
+            </div>
+            <div className="flex items-center gap-2">
+              <Download className="h-4 w-4 text-primary" />
+              Instant Export
+            </div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
               200+ Templates
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Brain className="h-3 w-3" />
-              Smart AI + Repository Analysis
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Package className="h-3 w-3" />
-              Curated Collections
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Layers className="h-3 w-3" />
-              Batch Generation
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Zap className="h-3 w-3" />
-              Live Preview
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Palette className="h-3 w-3" />
-              Full Customization
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-              <Paintbrush className="h-3 w-3" />
-              Custom SVG Badges
-            </Badge>
+            </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          {/* Left Column: Configuration - Takes 2/3 width on large screens */}
-          <div className="xl:col-span-2 space-y-6 animate-slide-in-up">
-            <Card className="glass shadow-enhanced-lg hover-glow transition-all duration-300">
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2 text-xl">
-                      <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                      Badge Configuration
-                    </CardTitle>
-                    <CardDescription className="mt-2 text-base">
-                      Customize your badge appearance and content
-                    </CardDescription>
-                  </div>
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Palette className="h-5 w-5 text-primary" />
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* Left Side: Badge Creation */}
+          <div className="space-y-6">
+            <Card className="glass shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <Settings className="h-5 w-5 text-primary" />
+                  Badge Configuration
+                </CardTitle>
+                <CardDescription>
+                  Customize your badge appearance and content
+                </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
-                <Tabs value={activeTab} onValueChange={setActiveTab}>
-                  <TabsList className="grid w-full grid-cols-7 bg-muted/50 h-11">
-                    <TabsTrigger 
-                      value="create" 
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <Zap className="h-4 w-4" />
-                      Create
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="suggestions"
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <Brain className="h-4 w-4" />
-                      Smart
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="collections"
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <Package className="h-4 w-4" />
-                      Sets
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="templates"
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      Browse
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="batch"
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <Layers className="h-4 w-4" />
-                      Batch
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="custom"
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <Paintbrush className="h-4 w-4" />
-                      Custom
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="analytics"
-                      className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-all duration-200 gap-2"
-                    >
-                      <BarChart3 className="h-4 w-4" />
-                      Stats
-                    </TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="create" className="mt-8 animate-scale-in">
-                    <BadgeForm 
-                      config={badgeConfig}
-                      onChange={handleConfigChange}
-                    />
-                  </TabsContent>
-                  
-                  <TabsContent value="suggestions" className="mt-8 animate-scale-in">
-                    <div className="space-y-6">
-                      <RepositoryAnalysis 
-                        onBadgesGenerated={(badges) => {
-                          // Set all badges as selected badges
-                          setSelectedBadges(badges);
-                          // Apply first badge configuration as main
-                          if (badges.length > 0) {
-                            setBadgeConfig(badges[0]);
-                          }
-                          setActiveTab('create');
-                        }}
-                        onCollectionSelected={() => {
-                          // This will be handled by the collection selection in collections tab
-                          setActiveTab('collections');
-                        }}
-                      />
-                      <BadgeSuggestions 
-                        onSelectTemplate={handleTemplateSelectFromSuggestion}
-                        onSelectMultiple={handleMultipleTemplateSelect}
-                      />
+              <CardContent>
+                <BadgeForm 
+                  config={badgeConfig}
+                  onChange={handleConfigChange}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Quick Templates */}
+            <Card className="glass shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <Sparkles className="h-5 w-5 text-accent" />
+                  Quick Templates
+                </CardTitle>
+                <CardDescription>
+                  Popular badge templates to get started
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    variant="outline" 
+                    className="h-auto p-3 flex flex-col items-center gap-2"
+                    onClick={() => setBadgeConfig(prev => ({ ...prev, label: 'Build', message: 'Passing', labelColor: '#555', messageColor: '#4c1', style: 'flat' }))}
+                  >
+                    <Image src="https://img.shields.io/badge/Build-Passing-brightgreen" alt="Build Passing" width={80} height={20} className="rounded" unoptimized />
+                    <span className="text-xs">Build Status</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="h-auto p-3 flex flex-col items-center gap-2"
+                    onClick={() => setBadgeConfig(prev => ({ ...prev, label: 'License', message: 'MIT', labelColor: '#555', messageColor: '#007ec6', style: 'flat' }))}
+                  >
+                    <Image src="https://img.shields.io/badge/License-MIT-blue" alt="License MIT" width={80} height={20} className="rounded" unoptimized />
+                    <span className="text-xs">License</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="h-auto p-3 flex flex-col items-center gap-2"
+                    onClick={() => setBadgeConfig(prev => ({ ...prev, label: 'Version', message: 'v1.0.0', labelColor: '#555', messageColor: '#orange', style: 'flat' }))}
+                  >
+                    <Image src="https://img.shields.io/badge/Version-v1.0.0-orange" alt="Version" width={80} height={20} className="rounded" unoptimized />
+                    <span className="text-xs">Version</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="h-auto p-3 flex flex-col items-center gap-2"
+                    onClick={() => setActiveTab('templates')}
+                  >
+                    <div className="w-20 h-5 bg-gradient-to-r from-primary/20 to-accent/20 rounded flex items-center justify-center">
+                      <span className="text-xs font-medium">More...</span>
                     </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="collections" className="mt-8 animate-scale-in">
-                    <BadgeCollections 
-                      onSelectCollection={handleMultipleTemplateSelect}
-                    />
-                  </TabsContent>
-                  
-                  <TabsContent value="templates" className="mt-8 animate-scale-in">
-                    <BadgeTemplates onTemplateSelect={handleTemplateSelect} />
-                  </TabsContent>
-                  
-                  <TabsContent value="batch" className="mt-8 animate-scale-in">
-                    <BatchGenerator initialBadges={[badgeConfig]} />
-                  </TabsContent>
-                  
-                  <TabsContent value="custom" className="mt-8 animate-scale-in">
-                    <CustomBadgeDesigner 
-                      initialConfig={badgeConfig}
-                      onApplyCustom={(customConfig) => {
-                        // Apply the custom badge configuration
-                        setBadgeConfig({
-                          label: customConfig.label,
-                          message: customConfig.message,
-                          labelColor: customConfig.labelColor || '#555',
-                          messageColor: customConfig.messageColor || '#007ec6',
-                          style: 'flat', // Custom badges use flat style
-                          isCustom: true // Mark as custom badge
-                        });
-                        setActiveTab('create');
-                      }}
-                    />
-                  </TabsContent>
-                  
-                  <TabsContent value="analytics" className="mt-8 animate-scale-in">
-                    <BadgeAnalyticsDashboard onSelectFromHistory={handleSelectFromHistory} />
-                  </TabsContent>
-                </Tabs>
+                    <span className="text-xs">Browse All</span>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Right Column: Preview and Export - Takes 1/3 width on large screens */}
-          <div className="space-y-6 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
-            <Card className="glass shadow-enhanced-lg hover-glow transition-all duration-300">
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-                      Live Preview
-                    </CardTitle>
-                    <CardDescription className="mt-1">
-                      Real-time preview
-                    </CardDescription>
-                  </div>
-                  <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Zap className="h-4 w-4 text-accent" />
-                  </div>
-                </div>
+          {/* Right Side: Preview & Export */}
+          <div className="space-y-6">
+            {/* Live Preview */}
+            <Card className="glass shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <Eye className="h-5 w-5 text-accent" />
+                  Live Preview
+                </CardTitle>
+                <CardDescription>
+                  See your badge in real-time
+                </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
-                <BadgePreview config={badgeConfig} />
-                
-                {selectedBadges.length > 1 && (
-                  <div className="mt-6 pt-6 border-t">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-sm font-medium">Collection Preview ({selectedBadges.length} badges)</h4>
-                      <button
-                        onClick={() => setSelectedBadges([])}
-                        className="text-xs text-muted-foreground hover:text-primary"
-                      >
-                        Clear
-                      </button>
-                    </div>
-                    <div className="space-y-2 max-h-48 overflow-y-auto">
-                      {selectedBadges.map((badge, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded-lg">
-                          <div className="flex items-center gap-2">
-                            <Image
-                              src={generateBadgeUrl(badge)}
-                              alt={`${badge.label}: ${badge.message}`}
-                              width={100}
-                              height={20}
-                              className="h-5 w-auto"
-                              unoptimized
-                            />
-                          </div>
-                          <button
-                            onClick={() => setBadgeConfig(badge)}
-                            className="text-xs text-primary hover:underline"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center p-8 bg-muted/30 rounded-lg border-2 border-dashed border-border">
+                    {badgeConfig.label && badgeConfig.message ? (
+                      <Image
+                        src={generateBadgeUrl(badgeConfig)}
+                        alt={`${badgeConfig.label}: ${badgeConfig.message}`}
+                        width={200}
+                        height={40}
+                        className="max-w-full h-auto"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="text-center text-muted-foreground">
+                        <ImageIcon className="h-8 w-8 mx-auto mb-2" />
+                        <p>Configure your badge to see preview</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                  
+                  {badgeConfig.label && badgeConfig.message && (
+                    <div className="text-center space-y-2">
+                      <p className="text-sm text-muted-foreground">Badge URL:</p>
+                      <div className="relative">
+                        <code className="block text-xs bg-muted p-3 rounded border font-mono break-all">
+                          {generateBadgeUrl(badgeConfig)}
+                        </code>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="absolute top-2 right-2 h-6 w-6 p-0"
+                          onClick={() => navigator.clipboard.writeText(generateBadgeUrl(badgeConfig))}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
-            <Card className="glass shadow-enhanced-lg hover-glow transition-all duration-300">
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
-                      Export Options
-                    </CardTitle>
-                    <CardDescription className="mt-1">
-                      Get your badge code
-                    </CardDescription>
-                  </div>
-                  <div className="h-8 w-8 rounded-lg bg-secondary/10 flex items-center justify-center">
-                    <Github className="h-4 w-4 text-secondary-foreground" />
-                  </div>
-                </div>
+            {/* Export Options */}
+            <Card className="glass shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <Download className="h-5 w-5 text-secondary-foreground" />
+                  Export Your Badge
+                </CardTitle>
+                <CardDescription>
+                  Get the code for your badge
+                </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
-                <BadgeExport config={badgeConfig} />
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 gap-3">
+                    <Button 
+                      className="w-full justify-start gap-3 h-12"
+                      onClick={() => {
+                        navigator.clipboard.writeText(generateMarkdown(badgeConfig));
+                        toast.success('Markdown copied!');
+                      }}
+                      disabled={!badgeConfig.label || !badgeConfig.message}
+                    >
+                      <FileText className="h-4 w-4" />
+                      Copy Markdown
+                      <Badge variant="secondary" className="ml-auto">README</Badge>
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      className="w-full justify-start gap-3 h-12"
+                      onClick={() => {
+                        navigator.clipboard.writeText(generateHtml(badgeConfig));
+                        toast.success('HTML copied!');
+                      }}
+                      disabled={!badgeConfig.label || !badgeConfig.message}
+                    >
+                      <Code className="h-4 w-4" />
+                      Copy HTML
+                      <Badge variant="secondary" className="ml-auto">Website</Badge>
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      className="w-full justify-start gap-3 h-12"
+                      onClick={() => {
+                        navigator.clipboard.writeText(generateBadgeUrl(badgeConfig));
+                        toast.success('URL copied!');
+                      }}
+                      disabled={!badgeConfig.label || !badgeConfig.message}
+                    >
+                      <Link className="h-4 w-4" />
+                      Copy URL
+                      <Badge variant="secondary" className="ml-auto">Direct</Badge>
+                    </Button>
+                  </div>
+                  
+                  {selectedBadges.length > 1 && (
+                    <div className="pt-4 border-t">
+                      <p className="text-sm font-medium mb-3">Badge Collection ({selectedBadges.length} badges)</p>
+                      <Button 
+                        variant="secondary"
+                        className="w-full gap-2"
+                        onClick={() => {
+                          const allMarkdown = selectedBadges.map(badge => generateMarkdown(badge)).join(' ');
+                          navigator.clipboard.writeText(allMarkdown);
+                          toast.success('All badges copied!');
+                        }}
+                      >
+                        <Package className="h-4 w-4" />
+                        Export All Badges
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
         </div>
 
+        {/* Advanced Features - Collapsible */}
+        <div className="mt-12 max-w-5xl mx-auto">
+          <Card className="glass shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <Settings className="h-5 w-5 text-primary" />
+                Advanced Features
+              </CardTitle>
+              <CardDescription>
+                Explore more powerful badge creation tools
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-4 mb-6">
+                  <TabsTrigger value="suggestions" className="gap-2">
+                    <Brain className="h-4 w-4" />
+                    Smart Suggestions
+                  </TabsTrigger>
+                  <TabsTrigger value="templates" className="gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    All Templates
+                  </TabsTrigger>
+                  <TabsTrigger value="custom" className="gap-2">
+                    <Paintbrush className="h-4 w-4" />
+                    Custom Design
+                  </TabsTrigger>
+                  <TabsTrigger value="batch" className="gap-2">
+                    <Layers className="h-4 w-4" />
+                    Batch Create
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="suggestions" className="mt-0">
+                  <RepositoryAnalysis 
+                    onBadgesGenerated={(badges) => {
+                      setSelectedBadges(badges);
+                      if (badges.length > 0) {
+                        setBadgeConfig(badges[0]);
+                      }
+                      toast.success(`Generated ${badges.length} badges!`);
+                    }}
+                    onCollectionSelected={() => setActiveTab('collections')}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="templates" className="mt-0">
+                  <BadgeTemplates onTemplateSelect={handleTemplateSelect} />
+                </TabsContent>
+                
+                <TabsContent value="custom" className="mt-0">
+                  <CustomBadgeDesigner 
+                    initialConfig={badgeConfig}
+                    onApplyCustom={(customConfig) => {
+                      setBadgeConfig({
+                        label: customConfig.label,
+                        message: customConfig.message,
+                        labelColor: customConfig.labelColor || '#555',
+                        messageColor: customConfig.messageColor || '#007ec6',
+                        style: 'flat',
+                        isCustom: true
+                      });
+                      toast.success('Custom badge applied!');
+                    }}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="batch" className="mt-0">
+                  <BatchGenerator initialBadges={[badgeConfig]} />
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Footer */}
-        <footer className="mt-16 text-center animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="glass rounded-xl p-6 max-w-2xl mx-auto">
-            <p className="text-muted-foreground mb-2">
+        <footer className="mt-20 text-center animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="glass rounded-2xl p-8 max-w-3xl mx-auto">
+            <p className="text-muted-foreground mb-4 text-lg">
               Made with ❤️ using Next.js, Tailwind CSS, and shadcn/ui
             </p>
-            <div className="flex items-center justify-center gap-2">
-              <Badge variant="outline">Open Source</Badge>
-              <Badge variant="outline">MIT License</Badge>
-              <Badge variant="outline">TypeScript</Badge>
+            <div className="flex items-center justify-center gap-3 flex-wrap">
+              <Badge variant="outline" className="px-3 py-1">Open Source</Badge>
+              <Badge variant="outline" className="px-3 py-1">MIT License</Badge>
+              <Badge variant="outline" className="px-3 py-1">TypeScript</Badge>
+              <Badge variant="outline" className="px-3 py-1">React 19</Badge>
+              <Badge variant="outline" className="px-3 py-1">Next.js 15</Badge>
             </div>
           </div>
         </footer>

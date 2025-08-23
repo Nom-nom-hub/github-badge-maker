@@ -217,6 +217,140 @@ export function BadgeForm({ config, onChange }: BadgeFormProps) {
             </div>
           </div>
         </div>
+        
+        {/* Text Colors */}
+        <div className="pt-4 border-t border-border/50">
+          <h4 className="text-sm font-medium mb-4 flex items-center gap-2">
+            <Type className="h-4 w-4 text-muted-foreground" />
+            Text Colors
+            <span className="text-xs font-normal text-muted-foreground">(Optional)</span>
+          </h4>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3 group">
+              <Label htmlFor="labelTextColor" className="text-sm font-medium flex items-center gap-2">
+                Label Text Color
+                {config.labelTextColor && (
+                  <div 
+                    className="h-3 w-3 rounded-full border border-border shadow-sm" 
+                    style={{ backgroundColor: config.labelTextColor }}
+                  />
+                )}
+              </Label>
+              <div className="flex gap-3">
+                <Input
+                  id="labelTextColor"
+                  value={config.labelTextColor || ''}
+                  onChange={(e) => handleInputChange('labelTextColor', e.target.value || undefined)}
+                  placeholder="#ffffff (auto if empty)"
+                  className="font-mono flex-1 glass hover:border-primary/50 focus:border-primary transition-all duration-200"
+                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="px-3 glass hover-glow transition-all duration-200"
+                    >
+                      <Type className="h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-72 glass animate-scale-in">
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-sm">Choose text color</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        {COMMON_COLORS.map(color => (
+                          <button
+                            key={color.value}
+                            className="group relative w-10 h-10 rounded-lg border border-border hover:border-primary transition-all duration-200 hover:scale-110 interactive"
+                            style={{ backgroundColor: color.value }}
+                            onClick={() => handleInputChange('labelTextColor', color.value)}
+                            title={color.name}
+                          >
+                            <div className="absolute inset-0 bg-black/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </button>
+                        ))}
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleInputChange('labelTextColor', undefined)}
+                        className="w-full"
+                      >
+                        Reset to Auto
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+
+            <div className="space-y-3 group">
+              <Label htmlFor="messageTextColor" className="text-sm font-medium flex items-center gap-2">
+                Message Text Color
+                {config.messageTextColor && (
+                  <div 
+                    className="h-3 w-3 rounded-full border border-border shadow-sm" 
+                    style={{ backgroundColor: config.messageTextColor }}
+                  />
+                )}
+              </Label>
+              <div className="flex gap-3">
+                <Input
+                  id="messageTextColor"
+                  value={config.messageTextColor || ''}
+                  onChange={(e) => handleInputChange('messageTextColor', e.target.value || undefined)}
+                  placeholder="#ffffff (auto if empty)"
+                  className="font-mono flex-1 glass hover:border-primary/50 focus:border-primary transition-all duration-200"
+                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="px-3 glass hover-glow transition-all duration-200"
+                    >
+                      <Type className="h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-72 glass animate-scale-in">
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-sm">Choose text color</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        {COMMON_COLORS.map(color => (
+                          <button
+                            key={color.value}
+                            className="group relative w-10 h-10 rounded-lg border border-border hover:border-primary transition-all duration-200 hover:scale-110 interactive"
+                            style={{ backgroundColor: color.value }}
+                            onClick={() => handleInputChange('messageTextColor', color.value)}
+                            title={color.name}
+                          >
+                            <div className="absolute inset-0 bg-black/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opa= ty" />
+                          </button>
+                        ))}
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleInputChange('messageTextColor', undefined)}
+                        className="w-full"
+                      >
+                        Reset to Auto
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 p-3 bg-muted/20 rounded-lg border border-border/50">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              💡 <strong>Tip:</strong> Leave text colors empty to use automatic contrast-based colors (recommended). 
+              Custom text colors will generate a custom SVG badge instead of using Shields.io.
+            </p>
+          </div>
+        </div>
       </div>
 
       <Separator className="bg-border/50" />

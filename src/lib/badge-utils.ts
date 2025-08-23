@@ -2,13 +2,15 @@ import { BadgeConfig, BadgeStyle } from './types';
 import { customBadgeGenerator } from './custom-badge-generator';
 
 export function generateBadgeUrl(config: BadgeConfig): string {
-  // If it's a custom badge, generate SVG data URL
-  if (config.isCustom) {
+  // If it's a custom badge or has custom text colors, generate SVG data URL
+  if (config.isCustom || config.labelTextColor || config.messageTextColor) {
     return customBadgeGenerator.generateDataUrl({
       label: config.label,
       message: config.message,
       labelColor: config.labelColor,
       messageColor: config.messageColor,
+      labelTextColor: config.labelTextColor,
+      messageTextColor: config.messageTextColor,
       style: config.style
     });
   }

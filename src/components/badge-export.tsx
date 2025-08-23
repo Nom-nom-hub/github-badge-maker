@@ -18,10 +18,11 @@ import { toast } from 'sonner';
 
 interface BadgeExportProps {
   config: BadgeConfig;
+  selectedBadges?: BadgeConfig[];
   // onExport?: (url: string) => void; // Currently unused
 }
 
-export function BadgeExport({ config }: BadgeExportProps) {
+export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
   // Format and size state variables for potential future use
   // const [selectedFormat, setSelectedFormat] = useState<'svg' | 'png' | 'jpg'>('svg');
   // const [selectedSize, setSelectedSize] = useState<'small' | 'medium' | 'large'>('medium');
@@ -148,30 +149,30 @@ export function BadgeExport({ config }: BadgeExportProps) {
   // };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Quick Export (existing functionality) */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Copy className="h-4 w-4 text-primary" />
-            <h3 className="font-semibold text-sm uppercase tracking-wide text-foreground">
+          <div className="flex items-center gap-3">
+            <Copy className="h-5 w-5 text-primary" />
+            <h3 className="font-bold text-base uppercase tracking-wide text-foreground">
               Quick Export
             </h3>
           </div>
-          <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-            <Sparkles className="h-2 w-2" />
+          <Badge variant="secondary" className="flex items-center gap-2 text-sm px-3 py-1">
+            <Sparkles className="h-3 w-3" />
             Ready to use
           </Badge>
         </div>
 
         {/* Link URL Configuration */}
-        <div className="space-y-3 group">
-          <div className="flex items-center gap-2">
-            <Link className="h-4 w-4 text-primary" />
-            <Label htmlFor="linkUrl" className="text-sm font-medium">
+        <div className="space-y-4 group">
+          <div className="flex items-center gap-3">
+            <Link className="h-5 w-5 text-primary" />
+            <Label htmlFor="linkUrl" className="text-base font-medium">
               Target URL for Clickable Badges
             </Label>
-            <div className="h-1 w-1 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="h-2 w-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
           <div className="flex gap-3">
             <Input
@@ -179,75 +180,75 @@ export function BadgeExport({ config }: BadgeExportProps) {
               value={linkUrl}
               onChange={(e) => setLinkUrl(e.target.value)}
               placeholder="https://github.com/username/repository"
-              className="flex-1 glass hover:border-primary/50 focus:border-primary transition-all duration-200 font-mono text-sm"
+              className="flex-1 glass hover:border-primary/50 focus:border-primary transition-all duration-200 font-mono text-sm h-12"
             />
             <Button
               variant="outline"
-              size="sm"
+              size="lg"
               onClick={() => window.open(linkUrl, '_blank')}
-              className="px-3 hover-glow transition-all duration-200"
+              className="px-4 hover-glow transition-all duration-200 h-12"
             >
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink className="h-5 w-5" />
             </Button>
           </div>
         </div>
 
         {/* Quick Export Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={() => copyToClipboard(generateMarkdown(config), 'quick-md')}>
-            <CardContent className="p-4">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 group" onClick={() => copyToClipboard(generateMarkdown(config), 'quick-md')}>
+            <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <FileText className="h-4 w-4 text-green-500" />
+                <div className="flex items-center gap-4">
+                  <FileText className="h-6 w-6 text-green-500" />
                   <div>
-                    <p className="font-medium text-sm">Markdown</p>
-                    <p className="text-xs text-muted-foreground">
-                      README & docs
+                    <p className="font-semibold text-base">Markdown</p>
+                    <p className="text-sm text-muted-foreground">
+                      Perfect for README & docs
                     </p>
                   </div>
                 </div>
-                <Copy className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Copy className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={() => copyToClipboard(generateHtml(config), 'quick-html')}>
-            <CardContent className="p-4">
+          <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 group" onClick={() => copyToClipboard(generateHtml(config), 'quick-html')}>
+            <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Code className="h-4 w-4 text-orange-500" />
+                <div className="flex items-center gap-4">
+                  <Code className="h-6 w-6 text-orange-500" />
                   <div>
-                    <p className="font-medium text-sm">HTML</p>
-                    <p className="text-xs text-muted-foreground">
-                      Web pages
+                    <p className="font-semibold text-base">HTML</p>
+                    <p className="text-sm text-muted-foreground">
+                      Great for web pages
                     </p>
                   </div>
                 </div>
-                <Copy className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Copy className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      <Separator />
+      <Separator className="my-8" />
 
       {/* Advanced Export */}
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Package className="h-4 w-4 text-accent" />
-            <h3 className="font-semibold text-sm uppercase tracking-wide text-foreground">
+          <div className="flex items-center gap-3">
+            <Package className="h-5 w-5 text-accent" />
+            <h3 className="font-bold text-base uppercase tracking-wide text-foreground">
               Advanced Export
             </h3>
           </div>
-          <Badge variant="outline" className="flex items-center gap-1 text-xs">
-            <Settings className="h-2 w-2" />
+          <Badge variant="outline" className="flex items-center gap-2 text-sm px-3 py-1">
+            <Settings className="h-3 w-3" />
             Multiple formats
           </Badge>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {/* Format Selection */}
           <div className="space-y-4">
             <div>

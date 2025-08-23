@@ -1,6 +1,10 @@
 import { BadgeConfig } from './types';
 
 export interface CustomBadgeConfig extends BadgeConfig {
+  // Text colors
+  labelTextColor?: string;
+  messageTextColor?: string;
+  
   // Custom styling options
   borderRadius?: number;
   borderWidth?: number;
@@ -165,6 +169,8 @@ class CustomBadgeGenerator {
       message,
       labelColor = '#555555',
       messageColor = '#007ec6',
+      labelTextColor = 'white',
+      messageTextColor = 'white',
       borderRadius = 4,
       borderWidth = 0,
       borderColor = 'transparent',
@@ -257,26 +263,36 @@ class CustomBadgeGenerator {
     `;
 
     // Text styles
-    const textStyle = `
+    const baseLabelTextStyle = `
       font-family: ${fontFamily};
       font-size: ${fontSize}px;
       font-weight: ${fontWeight};
       text-transform: ${textTransform};
       text-anchor: middle;
       dominant-baseline: central;
-      fill: white;
+      fill: ${labelTextColor};
+    `;
+    
+    const baseMessageTextStyle = `
+      font-family: ${fontFamily};
+      font-size: ${fontSize}px;
+      font-weight: ${fontWeight};
+      text-transform: ${textTransform};
+      text-anchor: middle;
+      dominant-baseline: central;
+      fill: ${messageTextColor};
     `;
 
     // Label text
     svg += `
-      <text x="${labelBoxWidth / 2}" y="${badgeHeight / 2}" style="${textStyle}">
+      <text x="${labelBoxWidth / 2}" y="${badgeHeight / 2}" style="${baseLabelTextStyle}">
         ${this.escapeXml(label)}
       </text>
     `;
 
     // Message text
     svg += `
-      <text x="${labelBoxWidth + (messageBoxWidth / 2)}" y="${badgeHeight / 2}" style="${textStyle}">
+      <text x="${labelBoxWidth + (messageBoxWidth / 2)}" y="${badgeHeight / 2}" style="${baseMessageTextStyle}">
         ${this.escapeXml(message)}
       </text>
     `;
