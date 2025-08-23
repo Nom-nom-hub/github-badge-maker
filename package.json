@@ -1,6 +1,6 @@
 {
   "name": "github-badge-maker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A beautiful, intuitive GitHub badge maker with real-time preview and multiple export formats. Built with Next.js and shadcn/ui.",
   "private": true,
   "author": "GitHub Badge Maker",
