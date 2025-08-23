@@ -338,7 +338,7 @@ Another Project,Another example,https://github.com/user/repo2,Python,Django,Test
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-sm font-medium mb-2 block">Output Format</label>
-                    <Select value={formData.outputFormat} onValueChange={(value: any) => setFormData(prev => ({ ...prev, outputFormat: value }))}>
+                    <Select value={formData.outputFormat} onValueChange={(value: 'markdown' | 'html' | 'json') => setFormData(prev => ({ ...prev, outputFormat: value }))}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>

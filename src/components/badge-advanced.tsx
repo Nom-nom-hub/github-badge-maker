@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
@@ -15,21 +14,16 @@ import {
   Sparkles, 
   Palette, 
   Zap, 
-  Settings, 
   Play, 
   Pause, 
   RotateCcw,
   Wand2,
-  Layers,
-  Brush
+  Layers
 } from 'lucide-react';
 import { 
   AdvancedBadgeConfig, 
-  ANIMATION_PRESETS, 
   GRADIENT_PRESETS, 
-  SHADOW_PRESETS,
   DEFAULT_ADVANCED_CONFIG,
-  generateAdvancedBadgeCSS,
   applyAdvancedStyles
 } from '@/lib/badge-advanced';
 import { BadgeConfig } from '@/lib/types';
@@ -44,7 +38,7 @@ export function BadgeAdvanced({ config, onChange }: BadgeAdvancedProps) {
     ...config,
     ...DEFAULT_ADVANCED_CONFIG
   } as AdvancedBadgeConfig);
-  const [previewElement, setPreviewElement] = useState<HTMLElement | null>(null);
+  const [previewElement] = useState<HTMLElement | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
@@ -53,7 +47,7 @@ export function BadgeAdvanced({ config, onChange }: BadgeAdvancedProps) {
     }
   }, [advancedConfig, previewElement]);
 
-  const handleAdvancedChange = (key: keyof AdvancedBadgeConfig, value: any) => {
+  const handleAdvancedChange = (key: keyof AdvancedBadgeConfig, value: unknown) => {
     const newConfig = { ...advancedConfig, [key]: value };
     setAdvancedConfig(newConfig);
     onChange(newConfig);

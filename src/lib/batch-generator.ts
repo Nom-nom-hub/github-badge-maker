@@ -1,6 +1,4 @@
 import { BadgeConfig } from './types';
-import { BADGE_COLLECTIONS, BadgeCollection, getCollectionBadges } from './badge-collections';
-import { ProjectContext } from './badge-suggestions';
 
 export interface ProjectConfig {
   id: string;
@@ -291,7 +289,7 @@ class BatchBadgeGenerator {
   /**
    * Generate a basic README template
    */
-  private generateBasicReadmeTemplate(project: ProjectConfig): string {
+  private generateBasicReadmeTemplate(): string {
     return `
 ## Installation
 
@@ -348,7 +346,7 @@ This project is licensed under the [License Name] - see the LICENSE file for det
           language: projectData.language,
           framework: projectData.framework,
           badges: this.parseBadgesFromCsv(projectData.badges || ''),
-          outputFormat: (projectData.outputformat as any) || 'markdown',
+          outputFormat: (projectData.outputformat as 'markdown' | 'html' | 'json') || 'markdown',
           includeReadme: projectData.includereadme === 'true'
         };
 
@@ -388,7 +386,7 @@ This project is licensed under the [License Name] - see the LICENSE file for det
   /**
    * Export to ZIP file (returns blob)
    */
-  async exportToZip(results: BatchResult[], options: BatchExportOptions = { format: 'zip' }): Promise<Blob> {
+  async exportToZip(results: BatchResult[]): Promise<Blob> {
     // This would typically use a library like JSZip
     // For now, we'll create a simple implementation
     const files: { [key: string]: string } = {};

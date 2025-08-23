@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, Package, Star, Crown, Zap, Plus, Check } from 'lucide-react';
 import { 
   BADGE_COLLECTIONS, 
-  getCollectionsByCategory, 
   getPopularCollections, 
   getPremiumCollections, 
   getCollectionBadges, 
@@ -23,10 +22,10 @@ import { toast } from 'sonner';
 
 interface BadgeCollectionsProps {
   onSelectCollection: (templates: BadgeTemplate[]) => void;
-  onSelectTemplate: (template: BadgeTemplate) => void;
+  // onSelectTemplate: (template: BadgeTemplate) => void; // Currently unused
 }
 
-export function BadgeCollections({ onSelectCollection, onSelectTemplate }: BadgeCollectionsProps) {
+export function BadgeCollections({ onSelectCollection }: BadgeCollectionsProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeTab, setActiveTab] = useState('popular');

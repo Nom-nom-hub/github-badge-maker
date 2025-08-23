@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { 
   Palette, 
@@ -20,7 +20,6 @@ import {
   Zap,
   Paintbrush,
   Settings,
-  Eye,
   Check
 } from 'lucide-react'
 import { customBadgeGenerator, CustomBadgeConfig, CUSTOM_BADGE_THEMES } from '@/lib/custom-badge-generator'
@@ -78,8 +77,8 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
     try {
       const dataUrl = customBadgeGenerator.generateDataUrl(customConfig)
       setPreviewUrl(dataUrl)
-    } catch (error) {
-      console.error('Failed to generate preview:', error)
+    } catch (_error) {
+      console.error('Failed to generate preview:', _error)
     }
   }, [customConfig])
 
@@ -120,7 +119,7 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
       onApplyCustom({
         ...customConfig,
         isCustom: true
-      } as any)
+      } as BadgeConfig)
       toast.success('✨ Applied custom badge design!')
     }
   }
@@ -153,6 +152,7 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
       URL.revokeObjectURL(url)
       toast.success('SVG downloaded!')
     } catch (error) {
+      console.error('Failed to download SVG:', error);
       toast.error('Failed to download SVG')
     }
   }
@@ -172,10 +172,13 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
         {/* Live Preview */}
         <div className="flex items-center justify-center p-6 bg-muted/30 rounded-lg border-2 border-dashed border-border/50">
           {previewUrl ? (
-            <img 
+            <Image 
               src={previewUrl} 
               alt="Custom badge preview" 
+              width={200}
+              height={40}
               className="max-w-full h-auto"
+              unoptimized
             />
           ) : (
             <div className="text-muted-foreground">Generating preview...</div>
@@ -319,7 +322,7 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
                   <Label>Font Weight</Label>
                   <Select 
                     value={customConfig.fontWeight} 
-                    onValueChange={(value: any) => handleConfigChange({ fontWeight: value })}
+                    onValueChange={(value: 'normal' | 'medium' | 'semibold' | 'bold') => handleConfigChange({ fontWeight: value })}
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -336,7 +339,7 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
                   <Label>Text Transform</Label>
                   <Select 
                     value={customConfig.textTransform} 
-                    onValueChange={(value: any) => handleConfigChange({ textTransform: value })}
+                    onValueChange={(value: 'none' | 'uppercase' | 'lowercase' | 'capitalize') => handleConfigChange({ textTransform: value })}
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -388,7 +391,7 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
                       <Label>Direction</Label>
                       <Select 
                         value={customConfig.gradient.direction} 
-                        onValueChange={(value: any) => handleGradientChange({ direction: value })}
+                        onValueChange={(value: 'horizontal' | 'vertical' | 'diagonal') => handleGradientChange({ direction: value })}
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -497,7 +500,7 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
                   <Label>Animation Type</Label>
                   <Select 
                     value={customConfig.animation?.type} 
-                    onValueChange={(value: any) => handleAnimationChange({ type: value })}
+                    onValueChange={(value: 'none' | 'pulse' | 'glow' | 'shake' | 'bounce') => handleAnimationChange({ type: value })}
                   >
                     <SelectTrigger>
                       <SelectValue />

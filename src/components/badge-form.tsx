@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { BadgeConfig, BADGE_STYLES, COMMON_COLORS } from '@/lib/types';
-import { Palette, RotateCcw, Sparkles, Type, Zap, Image, ChevronDown, Settings2 } from 'lucide-react';
+import { Palette, RotateCcw, Sparkles, Type, Zap, Image as ImageIcon, ChevronDown, Settings2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { BadgeAdvanced } from '@/components/badge-advanced';
 import { AdvancedBadgeConfig } from '@/lib/badge-advanced';
@@ -224,7 +224,7 @@ export function BadgeForm({ config, onChange }: BadgeFormProps) {
       {/* Logo Configuration */}
       <div className="space-y-6">
         <div className="flex items-center gap-2 mb-4">
-          <Image className="h-4 w-4 text-secondary" />
+          <ImageIcon className="h-4 w-4 text-secondary" />
           <h3 className="font-semibold text-sm uppercase tracking-wide text-foreground">
             Logo & Icons
             <span className="text-xs font-normal text-muted-foreground ml-2">(Optional)</span>

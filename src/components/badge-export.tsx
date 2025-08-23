@@ -1,40 +1,91 @@
 "use client";
 
-import React, { useState } from 'react';
+import Image from 'next/image';
+import React, { useState, useEffect, useRef } from 'react';
 import { BadgeConfig } from '@/lib/types';
-import { generateBadgeUrl, generateMarkdown, generateHtml, generateMarkdownWithLink, generateHtmlWithLink } from '@/lib/badge-utils';
+import { generateMarkdown, generateHtml, generateBadgeUrl } from '@/lib/badge-utils';
 import { badgeExport, ExportOptions } from '@/lib/badge-export';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
-import { Copy, Check, ExternalLink, Code, FileText, Link, Download, Sparkles, Package, Image, Settings } from 'lucide-react';
-import { toast } from 'sonner';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
+import { Copy, ExternalLink, Code, FileText, Link, Download, Sparkles, Package, Image as ImageIcon, Settings } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface BadgeExportProps {
   config: BadgeConfig;
-  selectedBadges?: BadgeConfig[];
+  // onExport?: (url: string) => void; // Currently unused
 }
 
-export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
+export function BadgeExport({ config }: BadgeExportProps) {
+  // Format and size state variables for potential future use
+  // const [selectedFormat, setSelectedFormat] = useState<'svg' | 'png' | 'jpg'>('svg');
+  // const [selectedSize, setSelectedSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [linkUrl, setLinkUrl] = useState('https://github.com/username/repository');
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
-  const [selectedFormat, setSelectedFormat] = useState<string>('markdown');
   const [exportOptions, setExportOptions] = useState<ExportOptions>({
-    format: 'markdown',
+    format: 'png',
     size: 'medium',
     quality: 0.9,
     includeMetadata: false
   });
   const [isExporting, setIsExporting] = useState(false);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const availableFormats = badgeExport.getAvailableFormats();
+
+  // Reset preview states when config changes
+  useEffect(() => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    
+    // Reset states
+    setPreviewLoading(false);
+    setPreviewError(false);
+    
+    // For image formats, start loading after a brief delay to ensure component is ready
+    if (['png', 'svg'].includes(exportOptions.format)) {
+      // Debug log the badge URL
+      console.log('Badge URL:', generateBadgeUrl(config));
+      
+      const timer = setTimeout(() => {
+        setPreviewLoading(true);
+        setPreviewError(false);
+        
+        // Set timeout to prevent infinite loading
+        timeoutRef.current = setTimeout(() => {
+          setPreviewLoading(false);
+          setPreviewError(true);
+          timeoutRef.current = null;
+        }, 8000); // 8 second timeout
+      }, 100); // Brief delay to ensure component is mounted
+      
+      return () => {
+        clearTimeout(timer);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      };
+    }
+    
+    // Cleanup function
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [config, exportOptions.format]);
 
   const handleAdvancedExport = async () => {
     setIsExporting(true);
@@ -79,99 +130,22 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
     }
   };
 
-  // Helper functions for bulk export
-  const generateBulkMarkdown = (badges: BadgeConfig[]) => {
-    return badges.map(badge => generateMarkdown(badge)).join(' ');
-  };
+  // Helper functions for bulk export (currently unused but kept for potential future use)
+  // const generateBulkMarkdown = (badges: BadgeConfig[]) => {
+  //   return badges.map(badge => generateMarkdown(badge)).join(' ');
+  // };
 
-  const generateBulkMarkdownWithLink = (badges: BadgeConfig[], url: string) => {
-    return badges.map(badge => generateMarkdownWithLink(badge, url)).join(' ');
-  };
+  // const generateBulkMarkdownWithLink = (badges: BadgeConfig[], url: string) => {
+  //   return badges.map(badge => generateMarkdownWithLink(badge, url)).join(' ');
+  // };
 
-  const generateBulkHtml = (badges: BadgeConfig[]) => {
-    return badges.map(badge => generateHtml(badge)).join('\n');
-  };
+  // const generateBulkHtml = (badges: BadgeConfig[]) => {
+  //   return badges.map(badge => generateHtml(badge)).join('\n');
+  // };
 
-  const generateBulkHtmlWithLink = (badges: BadgeConfig[], url: string) => {
-    return badges.map(badge => generateHtmlWithLink(badge, url)).join('\n');
-  };
-
-  const CopyButton = ({ text, id, variant = 'outline' }: { text: string; id: string; variant?: 'outline' | 'default' }) => (
-    <Button
-      variant={variant}
-      size="sm"
-      onClick={() => copyToClipboard(text, id)}
-      className={`gap-2 hover-glow transition-all duration-200 ${
-        copiedStates[id] ? 'bg-primary text-primary-foreground' : ''
-      }`}
-      disabled={!text}
-    >
-      {copiedStates[id] ? (
-        <>
-          <Check className="h-4 w-4" />
-          Copied!
-        </>
-      ) : (
-        <>
-          <Copy className="h-4 w-4" />
-          Copy
-        </>
-      )}
-    </Button>
-  );
-
-  const exports = [
-    {
-      id: 'url',
-      label: 'Direct URL',
-      description: selectedBadges.length > 1 ? `URLs for ${selectedBadges.length} badges` : 'Direct link to the badge image',
-      value: selectedBadges.length > 1 
-        ? selectedBadges.map(badge => generateBadgeUrl(badge)).join('\n')
-        : generateBadgeUrl(config),
-      icon: Link,
-      color: 'text-blue-500'
-    },
-    {
-      id: 'markdown',
-      label: 'Markdown',
-      description: selectedBadges.length > 1 ? `Markdown for ${selectedBadges.length} badges` : 'For README files and documentation',
-      value: selectedBadges.length > 1 
-        ? generateBulkMarkdown(selectedBadges)
-        : generateMarkdown(config),
-      icon: FileText,
-      color: 'text-green-500'
-    },
-    {
-      id: 'markdown-link',
-      label: 'Markdown with Link',
-      description: selectedBadges.length > 1 ? `Clickable badges for ${selectedBadges.length} badges` : 'Clickable badge in Markdown',
-      value: selectedBadges.length > 1 
-        ? generateBulkMarkdownWithLink(selectedBadges, linkUrl)
-        : generateMarkdownWithLink(config, linkUrl),
-      icon: ExternalLink,
-      color: 'text-purple-500'
-    },
-    {
-      id: 'html',
-      label: 'HTML',
-      description: selectedBadges.length > 1 ? `HTML for ${selectedBadges.length} badges` : 'For web pages and HTML documents',
-      value: selectedBadges.length > 1 
-        ? generateBulkHtml(selectedBadges)
-        : generateHtml(config),
-      icon: Code,
-      color: 'text-orange-500'
-    },
-    {
-      id: 'html-link',
-      label: 'HTML with Link',
-      description: selectedBadges.length > 1 ? `Clickable HTML badges for ${selectedBadges.length} badges` : 'Clickable badge in HTML',
-      value: selectedBadges.length > 1 
-        ? generateBulkHtmlWithLink(selectedBadges, linkUrl)
-        : generateHtmlWithLink(config, linkUrl),
-      icon: ExternalLink,
-      color: 'text-red-500'
-    }
-  ];
+  // const generateBulkHtmlWithLink = (badges: BadgeConfig[], url: string) => {
+  //   return badges.map(badge => generateHtmlWithLink(badge, url)).join('\n');
+  // };
 
   return (
     <div className="space-y-6">
@@ -181,12 +155,12 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
           <div className="flex items-center gap-2">
             <Copy className="h-4 w-4 text-primary" />
             <h3 className="font-semibold text-sm uppercase tracking-wide text-foreground">
-              {selectedBadges.length > 1 ? 'Bulk Export' : 'Quick Export'}
+              Quick Export
             </h3>
           </div>
           <Badge variant="secondary" className="flex items-center gap-1 text-xs">
             <Sparkles className="h-2 w-2" />
-            {selectedBadges.length > 1 ? `${selectedBadges.length} badges` : 'Ready to use'}
+            Ready to use
           </Badge>
         </div>
 
@@ -220,7 +194,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
 
         {/* Quick Export Options */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={() => copyToClipboard(selectedBadges.length > 1 ? generateBulkMarkdown(selectedBadges) : generateMarkdown(config), 'quick-md')}>
+          <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={() => copyToClipboard(generateMarkdown(config), 'quick-md')}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -228,7 +202,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
                   <div>
                     <p className="font-medium text-sm">Markdown</p>
                     <p className="text-xs text-muted-foreground">
-                      {selectedBadges.length > 1 ? `${selectedBadges.length} badges` : 'README & docs'}
+                      README & docs
                     </p>
                   </div>
                 </div>
@@ -237,7 +211,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={() => copyToClipboard(selectedBadges.length > 1 ? generateBulkHtml(selectedBadges) : generateHtml(config), 'quick-html')}>
+          <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={() => copyToClipboard(generateHtml(config), 'quick-html')}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -245,7 +219,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
                   <div>
                     <p className="font-medium text-sm">HTML</p>
                     <p className="text-xs text-muted-foreground">
-                      {selectedBadges.length > 1 ? `${selectedBadges.length} badges` : 'Web pages'}
+                      Web pages
                     </p>
                   </div>
                 </div>
@@ -254,64 +228,6 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
             </CardContent>
           </Card>
         </div>
-        
-        {/* Collection-specific exports */}
-        {selectedBadges.length > 1 && (
-          <>
-            <Separator className="my-4" />
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium flex items-center gap-2">
-                <Package className="h-4 w-4" />
-                Collection Formats
-              </h4>
-              <div className="grid grid-cols-1 gap-2">
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-all duration-200 group" 
-                  onClick={() => {
-                    const readmeSection = `## Badges\n\n${generateBulkMarkdown(selectedBadges)}\n\n---\n`;
-                    copyToClipboard(readmeSection, 'readme-section');
-                  }}
-                >
-                  <CardContent className="p-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <FileText className="h-4 w-4 text-blue-500" />
-                        <div>
-                          <p className="font-medium text-sm">README Section</p>
-                          <p className="text-xs text-muted-foreground">Complete section with header</p>
-                        </div>
-                      </div>
-                      <Copy className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-all duration-200 group" 
-                  onClick={() => {
-                    const listFormat = selectedBadges.map((badge, index) => 
-                      `${index + 1}. ![${badge.label}](${generateBadgeUrl(badge)}) - ${badge.message}`
-                    ).join('\n');
-                    copyToClipboard(listFormat, 'numbered-list');
-                  }}
-                >
-                  <CardContent className="p-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <FileText className="h-4 w-4 text-purple-500" />
-                        <div>
-                          <p className="font-medium text-sm">Numbered List</p>
-                          <p className="text-xs text-muted-foreground">Organized list format</p>
-                        </div>
-                      </div>
-                      <Copy className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </>
-        )}
       </div>
 
       <Separator />
@@ -338,7 +254,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
               <Label className="text-sm font-medium">Export Format</Label>
               <Select 
                 value={exportOptions.format} 
-                onValueChange={(value) => setExportOptions(prev => ({ ...prev, format: value as any }))}
+                onValueChange={(value) => setExportOptions(prev => ({ ...prev, format: value as 'png' | 'svg' | 'html' | 'json' | 'pdf' }))}
               >
                 <SelectTrigger className="mt-2">
                   <SelectValue />
@@ -365,7 +281,7 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
                 <Label className="text-sm font-medium">Size</Label>
                 <Select 
                   value={exportOptions.size} 
-                  onValueChange={(value) => setExportOptions(prev => ({ ...prev, size: value as any }))}
+                  onValueChange={(value) => setExportOptions(prev => ({ ...prev, size: value as 'small' | 'medium' | 'large' }))}
                 >
                   <SelectTrigger className="mt-2">
                     <SelectValue />
@@ -414,14 +330,81 @@ export function BadgeExport({ config, selectedBadges = [] }: BadgeExportProps) {
               <Label className="text-sm font-medium">Preview</Label>
               <div className="mt-2 p-4 bg-muted/30 rounded-lg border border-border/50 min-h-[100px] flex items-center justify-center">
                 {['png', 'svg'].includes(exportOptions.format) ? (
-                  <div className="text-center">
-                    <Image className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Image will be downloaded</p>
+                  <div className="text-center space-y-3">
+                    <div className="flex justify-center">
+                      {previewError && (
+                        <div className="text-center">
+                          <ImageIcon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">Preview unavailable</p>
+                          <button 
+                            onClick={() => {
+                              setPreviewError(false);
+                              setPreviewLoading(true);
+                            }}
+                            className="text-xs text-primary hover:underline mt-1"
+                          >
+                            Retry
+                          </button>
+                        </div>
+                      )}
+                      {!previewError && (
+                        <>
+                          {previewLoading && (
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+                              <p className="text-sm text-muted-foreground">Loading preview...</p>
+                            </div>
+                          )}
+                          <img 
+                            key={`${config.label}-${config.message}-${config.style}-${exportOptions.format}`}
+                            src={generateBadgeUrl(config)}
+                            alt={`${config.label}: ${config.message}`}
+                            className={`max-w-full h-auto ${previewLoading ? 'opacity-0 absolute' : 'opacity-100'}`}
+                            onLoad={() => {
+                              // Clear timeout on successful load
+                              if (timeoutRef.current) {
+                                clearTimeout(timeoutRef.current);
+                                timeoutRef.current = null;
+                              }
+                              setPreviewLoading(false);
+                              setPreviewError(false);
+                            }}
+                            onError={() => {
+                              // Clear timeout on error
+                              if (timeoutRef.current) {
+                                clearTimeout(timeoutRef.current);
+                                timeoutRef.current = null;
+                              }
+                              setPreviewLoading(false);
+                              setPreviewError(true);
+                            }}
+                            onLoadStart={() => {
+                              setPreviewLoading(true);
+                              setPreviewError(false);
+                            }}
+                          />
+                        </>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground">Image will be downloaded</p>
                   </div>
                 ) : (
-                  <div className="text-center">
-                    <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Code will be copied to clipboard</p>
+                  <div className="text-center space-y-3">
+                    <div className="bg-background/50 rounded border p-3 font-mono text-sm max-w-full overflow-auto">
+                      {exportOptions.format === 'html' && (
+                        <code className="text-xs break-all">{generateHtml(config)}</code>
+                      )}
+                      {exportOptions.format === 'markdown' && (
+                        <code className="text-xs break-all">{generateMarkdown(config)}</code>
+                      )}
+                      {!['html', 'markdown'].includes(exportOptions.format) && (
+                        <div className="text-center">
+                          <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">{exportOptions.format.toUpperCase()} format</p>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground">Code will be copied to clipboard</p>
                   </div>
                 )}
               </div>

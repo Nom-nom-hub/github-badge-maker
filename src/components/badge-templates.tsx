@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { BadgeTemplate, BadgeConfig } from '@/lib/types';
 import { getTemplatesByCategory } from '@/lib/badge-templates';
 import { generateBadgeUrl } from '@/lib/badge-utils';
@@ -10,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, Wand2, Sparkles, Zap, Filter, Star } from 'lucide-react';
 
 interface BadgeTemplatesProps {
@@ -409,14 +409,16 @@ function TemplateCard({ template, onClick, isHovered, onHover }: TemplateCardPro
               isHovered ? 'scale-110' : ''
             }`}>
               {badgeUrl && (
-                <img
+                <Image
                   src={badgeUrl}
                   alt={template.name}
+                  width={100}
+                  height={20}
                   onLoad={() => setImageLoaded(true)}
                   className={`transition-all duration-200 max-h-6 ${
                     imageLoaded ? 'opacity-100' : 'opacity-0'
                   }`}
-                  loading="lazy"
+                  unoptimized
                 />
               )}
               {!imageLoaded && (

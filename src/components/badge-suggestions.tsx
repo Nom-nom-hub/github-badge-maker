@@ -4,14 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Lightbulb, Sparkles, TrendingUp, Zap, Brain, Rocket } from 'lucide-react';
 import { badgeSuggestionEngine, ProjectContext, SuggestionGroup } from '@/lib/badge-suggestions';
-import { BadgeTemplate, BadgeConfig } from '@/lib/types';
+import { BadgeTemplate } from '@/lib/types';
 import { toast } from 'sonner';
 
 interface BadgeSuggestionsProps {
@@ -30,7 +29,7 @@ export function BadgeSuggestions({ onSelectTemplate, onSelectMultiple }: BadgeSu
     setSuggestions(newSuggestions);
   }, [context]);
 
-  const handleContextChange = (key: keyof ProjectContext, value: any) => {
+  const handleContextChange = (key: keyof ProjectContext, value: unknown) => {
     setContext(prev => ({ ...prev, [key]: value }));
   };
 

@@ -37,7 +37,7 @@ export function generateBadgeUrl(config: BadgeConfig): string {
   const pathColor = messageColor?.replace('#', '') || 'blue';
   
   // Build the badge URL according to Shields.io format: /badge/label-message-color
-  let url = `${baseUrl}/${encodedLabel}-${encodedMessage}-${pathColor}`;
+  const url = `${baseUrl}/${encodedLabel}-${encodedMessage}-${pathColor}`;
   
   // Add query parameters
   const params = new URLSearchParams();

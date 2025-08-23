@@ -9,7 +9,6 @@ import { Progress } from '@/components/ui/progress';
 import { 
   BarChart3, 
   TrendingUp, 
-  TrendingDown, 
   Star, 
   Clock, 
   Award, 
@@ -19,7 +18,6 @@ import {
   Palette,
   Heart,
   Download,
-  Upload,
   Trash2
 } from 'lucide-react';
 import { 
@@ -28,10 +26,11 @@ import {
   BadgeUsageStats, 
   UserBadgeHistory 
 } from '@/lib/badge-analytics';
+import { BadgeConfig } from '@/lib/types';
 import { toast } from 'sonner';
 
 interface BadgeAnalyticsProps {
-  onSelectFromHistory?: (config: any) => void;
+  onSelectFromHistory?: (config: BadgeConfig) => void;
 }
 
 export function BadgeAnalyticsDashboard({ onSelectFromHistory }: BadgeAnalyticsProps) {
@@ -69,7 +68,7 @@ export function BadgeAnalyticsDashboard({ onSelectFromHistory }: BadgeAnalyticsP
         URL.revokeObjectURL(url);
         toast.success('Analytics data exported successfully!');
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to export data');
     }
   };
@@ -305,7 +304,7 @@ export function BadgeAnalyticsDashboard({ onSelectFromHistory }: BadgeAnalyticsP
               <CardContent>
                 <div className="space-y-3">
                   {trendingTemplates.length > 0 ? (
-                    trendingTemplates.slice(0, 8).map((template, index) => (
+                    trendingTemplates.slice(0, 8).map((template) => (
                       <div key={template.id} className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <TrendingUp className="h-4 w-4 text-green-500" />

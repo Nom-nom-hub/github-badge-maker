@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BadgeConfig, DEFAULT_BADGE_CONFIG } from '@/lib/types';
@@ -75,7 +76,7 @@ export function BadgeMaker() {
     setActiveTab('create');
   };
 
-  const handleSelectFromHistory = (config: any) => {
+  const handleSelectFromHistory = (config: BadgeConfig) => {
     setBadgeConfig(prev => ({ ...prev, ...config }));
     setActiveTab('create');
   };
@@ -268,7 +269,7 @@ export function BadgeMaker() {
                           }
                           setActiveTab('create');
                         }}
-                        onCollectionSelected={(collectionId) => {
+                        onCollectionSelected={() => {
                           // This will be handled by the collection selection in collections tab
                           setActiveTab('collections');
                         }}
@@ -283,7 +284,6 @@ export function BadgeMaker() {
                   <TabsContent value="collections" className="mt-8 animate-scale-in">
                     <BadgeCollections 
                       onSelectCollection={handleMultipleTemplateSelect}
-                      onSelectTemplate={handleTemplateSelectFromSuggestion}
                     />
                   </TabsContent>
                   
@@ -358,10 +358,13 @@ export function BadgeMaker() {
                       {selectedBadges.map((badge, index) => (
                         <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded-lg">
                           <div className="flex items-center gap-2">
-                            <img
+                            <Image
                               src={generateBadgeUrl(badge)}
                               alt={`${badge.label}: ${badge.message}`}
-                              className="h-5"
+                              width={100}
+                              height={20}
+                              className="h-5 w-auto"
+                              unoptimized
                             />
                           </div>
                           <button
@@ -396,7 +399,7 @@ export function BadgeMaker() {
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <BadgeExport config={badgeConfig} selectedBadges={selectedBadges} />
+                <BadgeExport config={badgeConfig} />
               </CardContent>
             </Card>
           </div>

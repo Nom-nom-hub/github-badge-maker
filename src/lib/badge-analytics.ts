@@ -1,4 +1,4 @@
-import { BadgeTemplate } from './types';
+import { BadgeConfig } from './types';
 
 export interface BadgeUsageStats {
   id: string;
@@ -32,10 +32,18 @@ export interface BadgeAnalytics {
   };
 }
 
+export interface ExportData {
+  analytics?: BadgeAnalytics;
+  usage?: Record<string, BadgeUsageStats>;
+  history?: UserBadgeHistory[];
+  favorites?: string[];
+  exportedAt?: string;
+}
+
 export interface UserBadgeHistory {
   id: string;
   templateId: string;
-  config: any;
+  config: BadgeConfig;
   createdAt: Date;
   category: string;
   isCustom: boolean;
@@ -96,7 +104,7 @@ class BadgeAnalyticsService {
     }
   }
 
-  trackBadgeUsage(templateId: string, templateName: string, category: string, config: any) {
+  trackBadgeUsage(templateId: string, templateName: string, category: string, config: BadgeConfig) {
     if (typeof window === 'undefined') return;
     
     try {
@@ -140,7 +148,7 @@ class BadgeAnalyticsService {
     }
   }
 
-  private updateAnalytics(templateId: string, category: string, config: any) {
+  private updateAnalytics(templateId: string, category: string, config: BadgeConfig) {
     const analytics = this.getAnalytics();
     
     analytics.totalBadgesCreated++;
@@ -179,7 +187,7 @@ class BadgeAnalyticsService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(analytics));
   }
 
-  private addToHistory(templateId: string, config: any, category: string) {
+  private addToHistory(templateId: string, config: BadgeConfig, category: string) {
     const history = this.getHistory();
     const now = new Date();
     
@@ -358,7 +366,7 @@ class BadgeAnalyticsService {
     };
   }
 
-  importData(data: any) {
+  importData(data: ExportData) {
     if (typeof window === 'undefined') return;
     
     try {

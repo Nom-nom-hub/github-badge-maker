@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { BadgeConfig } from '@/lib/types';
 import { generateBadgeUrl } from '@/lib/badge-utils';
 import { badgeAnalytics } from '@/lib/badge-analytics';
@@ -175,15 +176,18 @@ export function BadgePreview({ config }: BadgePreviewProps) {
             
             {badgeUrl && (
               <div className="relative group">
-                <img
+                <Image
                   src={badgeUrl}
                   alt={`${config.label}: ${config.message}`}
+                  width={100}
+                  height={20}
                   onLoad={handleImageLoad}
                   onError={handleImageError}
                   className={`transition-all duration-300 hover:scale-110 ${
                     imageLoaded ? 'opacity-100' : 'opacity-0 absolute'
                   }`}
                   style={{ minHeight: '20px' }}
+                  unoptimized
                 />
                 
                 {/* Quick Actions Overlay */}
@@ -243,10 +247,13 @@ export function BadgePreview({ config }: BadgePreviewProps) {
                 <div className="text-muted-foreground"># My Awesome Project</div>
                 <div className="mt-1 flex items-center gap-2">
                   {badgeUrl && imageLoaded && (
-                    <img
+                    <Image
                       src={badgeUrl}
                       alt={`${config.label}: ${config.message}`}
+                      width={100}
+                      height={20}
                       className="inline-block"
+                      unoptimized
                     />
                   )}
                   <span className="text-foreground">[![Build Status](...</span>
@@ -267,10 +274,13 @@ export function BadgePreview({ config }: BadgePreviewProps) {
                     Project Status
                   </h3>
                   {badgeUrl && imageLoaded && (
-                    <img
+                    <Image
                       src={badgeUrl}
                       alt={`${config.label}: ${config.message}`}
+                      width={100}
+                      height={20}
                       className="inline-block"
+                      unoptimized
                     />
                   )}
                 </div>

@@ -1,5 +1,4 @@
 import { ProjectContext } from './badge-suggestions';
-import { BadgeConfig } from './types';
 
 export interface RepositoryInfo {
   owner: string;
@@ -164,6 +163,7 @@ class RepositoryAnalyzer {
       
       return null;
     } catch (error) {
+      console.warn('Failed to parse package.json:', error);
       return null; // Failed to parse or fetch
     }
   }
@@ -335,7 +335,7 @@ class RepositoryAnalyzer {
   private generateSuggestions(
     context: ProjectContext,
     frameworks: string[],
-    tools: string[]
+    // _tools: string[] - tools parameter not currently used but kept for future enhancement
   ): {
     badges: string[];
     collections: string[];

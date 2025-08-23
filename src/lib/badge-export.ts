@@ -27,8 +27,6 @@ class BadgeExportService {
   }
 
   async exportBadge(config: BadgeConfig, options: ExportOptions): Promise<ExportResult> {
-    const badgeUrl = generateBadgeUrl(config);
-    const timestamp = new Date().toISOString().split('T')[0];
     const basename = `${config.label}-${config.message}`.replace(/[^a-z0-9]/gi, '-').toLowerCase();
 
     switch (options.format) {

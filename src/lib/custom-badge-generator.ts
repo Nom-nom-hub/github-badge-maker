@@ -204,7 +204,8 @@ class CustomBadgeGenerator {
       const [color1, color2] = gradient.colors;
       const direction = gradient.direction || 'horizontal';
       
-      let x1 = '0%', y1 = '0%', x2 = '100%', y2 = '0%';
+      const x1 = '0%', y1 = '0%';
+      let x2 = '100%', y2 = '0%';
       if (direction === 'vertical') {
         x2 = '0%'; y2 = '100%';
       } else if (direction === 'diagonal') {
