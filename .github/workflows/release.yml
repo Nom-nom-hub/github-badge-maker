@@ -34,18 +34,39 @@ jobs:
       - name: 📝 Generate changelog
         id: changelog
         run: |
-          # Get the latest tag
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          echo "Latest tag found: '$LATEST_TAG'"
+          set -e
+          echo "=== Starting changelog generation ==="
           
-          # Generate changelog
-          if [ -z "$LATEST_TAG" ]; then
+          # Check if any tags exist at all
+          TAG_COUNT=$(git tag | wc -l)
+          echo "Total number of tags in repository: $TAG_COUNT"
+          
+          # List all existing tags
+          echo "All existing tags:"
+          git tag || echo "No tags found"
+          
+          # Attempt to get the latest tag
+          echo "Attempting to get latest tag..."
+          LATEST_TAG=""
+          if [ "$TAG_COUNT" -gt 0 ]; then
+            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+            echo "Latest tag found: '$LATEST_TAG'"
+          else
+            echo "No tags exist in repository"
+          fi
+          
+          # Generate changelog based on whether we have tags
+          echo "=== Generating changelog ==="
+          if [ -z "$LATEST_TAG" ] || [ "$TAG_COUNT" -eq 0 ]; then
             echo "No previous tags found, generating changelog from all commits"
-            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+            CHANGELOG=$(git log --oneline --no-merges --pretty=format:"- %s (%h)" || echo "No commits found")
           else
             echo "Previous tag found: $LATEST_TAG, generating changelog since then"
-            CHANGELOG=$(git log ${LATEST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+            CHANGELOG=$(git log "${LATEST_TAG}..HEAD" --oneline --no-merges --pretty=format:"- %s (%h)" || echo "No new commits since last tag")
           fi
+          
+          echo "=== Generated changelog ==="
+          echo "$CHANGELOG"
           
           # Save changelog to output
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
@@ -54,6 +75,8 @@ jobs:
           
           # Save latest tag for later use
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          
+          echo "=== Changelog generation completed ==="
 
       - name: 🏷️ Bump version and create tag
         id: version
