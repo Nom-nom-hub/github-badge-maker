@@ -36,13 +36,14 @@ jobs:
         run: |
           # Get the latest tag
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "Latest tag found: '$LATEST_TAG'"
           
           # Generate changelog
           if [ -z "$LATEST_TAG" ]; then
-            # No previous tags, get all commits
+            echo "No previous tags found, generating changelog from all commits"
             CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
           else
-            # Get commits since last tag
+            echo "Previous tag found: $LATEST_TAG, generating changelog since then"
             CHANGELOG=$(git log ${LATEST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
           fi
           
@@ -59,6 +60,7 @@ jobs:
         run: |
           # Get current version from package.json
           CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
           
           # Determine version bump type based on commit messages
           if git log --format=%B -n 1 | grep -q "BREAKING CHANGE\|feat!"; then
@@ -69,8 +71,11 @@ jobs:
             VERSION_TYPE="patch"
           fi
           
+          echo "Version bump type: $VERSION_TYPE"
+          
           # Bump version
           NEW_VERSION=$(npm version $VERSION_TYPE --no-git-tag-version)
+          echo "New version: $NEW_VERSION"
           
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
