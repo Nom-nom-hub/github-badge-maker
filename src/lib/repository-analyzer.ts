@@ -69,7 +69,7 @@ class RepositoryAnalyzer {
       const { frameworks, tools, confidence } = this.detectTechnologies(repoInfo, packageInfo);
       
       // Generate suggestions
-      const suggestions = this.generateSuggestions(projectContext, frameworks, tools);
+      const suggestions = this.generateSuggestions(projectContext, frameworks);
       
       return {
         repository: repoInfo,

@@ -63,7 +63,7 @@ export function BatchGenerator({ initialBadges = [] }: BatchGeneratorProps) {
     repository: '',
     language: '',
     framework: '',
-    outputFormat: 'markdown' as const,
+    outputFormat: 'markdown' as 'markdown' | 'html' | 'json',
     includeReadme: true
   })
 

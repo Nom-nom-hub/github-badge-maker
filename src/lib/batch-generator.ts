@@ -289,8 +289,11 @@ class BatchBadgeGenerator {
   /**
    * Generate a basic README template
    */
-  private generateBasicReadmeTemplate(): string {
+  private generateBasicReadmeTemplate(project: ProjectConfig): string {
     return `
+# ${project.name}
+
+${project.description ? `${project.description}\n\n` : ''}
 ## Installation
 
 \`\`\`bash
@@ -309,6 +312,7 @@ class BatchBadgeGenerator {
 - Feature 2
 - Feature 3
 
+${project.language ? `## Technology Stack\n\n- **Language**: ${project.language}\n` : ''}${project.framework ? `- **Framework**: ${project.framework}\n\n` : ''}
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

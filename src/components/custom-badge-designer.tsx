@@ -116,10 +116,11 @@ export function CustomBadgeDesigner({ initialConfig, onApplyCustom }: CustomBadg
 
   const handleApply = () => {
     if (onApplyCustom) {
-      onApplyCustom({
+      const configWithCustomFlag: BadgeConfig & { isCustom: boolean } = {
         ...customConfig,
         isCustom: true
-      } as BadgeConfig)
+      }
+      onApplyCustom(configWithCustomFlag)
       toast.success('✨ Applied custom badge design!')
     }
   }

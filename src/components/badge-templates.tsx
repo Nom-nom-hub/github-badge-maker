@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { BadgeTemplate, BadgeConfig } from '@/lib/types';
+import { BadgeTemplate, BadgeConfig, DEFAULT_BADGE_CONFIG } from '@/lib/types';
 import { getTemplatesByCategory } from '@/lib/badge-templates';
 import { generateBadgeUrl } from '@/lib/badge-utils';
 import { badgeAnalytics } from '@/lib/badge-analytics';
@@ -14,7 +14,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Search, Wand2, Sparkles, Zap, Filter, Star } from 'lucide-react';
 
 interface BadgeTemplatesProps {
-  onTemplateSelect: (config: Partial<BadgeTemplate['config']>) => void;
+  onTemplateSelect: (config: BadgeConfig) => void;
 }
 
 export function BadgeTemplates({ onTemplateSelect }: BadgeTemplatesProps) {
@@ -60,19 +60,25 @@ export function BadgeTemplates({ onTemplateSelect }: BadgeTemplatesProps) {
   }, [templates, searchTerm, selectedCategory]);
 
   const handleTemplateClick = (template: BadgeTemplate) => {
+    // Merge template config with defaults to ensure all required properties exist
+    const completeConfig: BadgeConfig = {
+      ...DEFAULT_BADGE_CONFIG,
+      ...template.config
+    };
+    
     // Track template usage for analytics
     try {
       badgeAnalytics.trackBadgeUsage(
         template.id,
         template.name,
         template.category,
-        template.config
+        completeConfig
       );
     } catch (error) {
       console.warn('Failed to track template usage:', error);
     }
     
-    onTemplateSelect(template.config);
+    onTemplateSelect(completeConfig);
   };
 
   const popularCategories = ['Build Status', 'Technology', 'License'];
